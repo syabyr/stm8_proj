@@ -1,6 +1,6 @@
 #include "stm8s_it.h"
-#include "keycheck.h"
-#include "basic.h"
+//#include "keycheck.h"
+#include "define.h"
 
 #ifdef _COSMIC_
 @far @interrupt void NonHandledInterrupt(void)
@@ -43,6 +43,11 @@ INTERRUPT_HANDLER(EXTI_PORTB_IRQHandler, 4)
 
 INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
 {
+  //PC3,PC2
+  //if ((GPIO_ReadInputData(KEY_PORT) & KEY_PIN) != 0x00)
+  {
+    GPIO_WriteReverse(LED_PORT, LED_PIN);
+  }
 }
 
 INTERRUPT_HANDLER(EXTI_PORTD_IRQHandler, 6)

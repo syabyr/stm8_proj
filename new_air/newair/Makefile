@@ -46,6 +46,8 @@ SPL_INC_DIR = ../STM8S_SPL_2.3.1/Libraries/STM8S_StdPeriph_Driver/inc/
 #SPL_SOURCE  = stm8s_uart2.c
 #SPL_SOURCE  += stm8s_clk.c
 SPL_SOURCE  += stm8s_tim1.c
+SPL_SOURCE  += stm8s_gpio.c
+SPL_SOURCE  += stm8s_exti.c
 SPL_OBJECTS := $(addprefix $(OUTPUT_DIR)/, $(SPL_SOURCE:.c=.rel))
 
 # collect all include folders
@@ -56,7 +58,10 @@ VPATH=$(PRJ_SRC_DIR):$(SPL_SRC_DIR)
 
 .PHONY: clean
 
-all: $(TARGET)
+all: $(OUTPUT_DIR) $(TARGET)
+
+$(OUTPUT_DIR):
+	mkdir $@
 
 $(OUTPUT_DIR)/%.rel: %.c
 	$(CC) $(CFLAGS) -D$(DEVICE) $(INCLUDE) -DSKIP_TRAPS=$(SKIP_TRAPS) -D${DEVICE}=1 -c $?
@@ -74,4 +79,4 @@ bin: $(TARGET)
 	hex2bin $(TARGET)
 
 clean:
-	rm $(OUTPUT_DIR)/*
+	rm -fr $(OUTPUT_DIR)/

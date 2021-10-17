@@ -3,7 +3,7 @@
 #include "stm8s_it.h"
 #include "common.h"
 #include "init.h"
-#include "basic.h"
+//#include "basic.h"
 #include "define.h"
 
 #ifdef _RAISONANCE_
@@ -45,37 +45,60 @@ static void TIMER1_Config()
 void main(void)
 {
   MY_CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
-  
-  init_gpio();
 
+  disableInterrupts();
+  
+  //init_gpio();
+
+    /* Initialize I/Os in Output Mode for LEDs */
+  GPIO_Init(LED_PORT, (GPIO_Pin_TypeDef)(LED_PIN),
+            GPIO_MODE_OUT_PP_HIGH_FAST);
+
+  GPIO_Init(KEY_PORT, (GPIO_Pin_TypeDef)(KEY_PIN),
+            GPIO_MODE_IN_FL_IT);
+
+  /* Initialize the Interrupt sensitivity */
+  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_ONLY);
+  EXTI_SetTLISensitivity(EXTI_TLISENSITIVITY_FALL_ONLY);
+
+
+  
+  GPIO_WriteReverse(LED_PORT, LED_PIN);
 
   //PC1,pwm output
   //PC2,control output,active high
   //PC3,input,fan speed feedback
+  /*
   GPIOC->DDR=GPIO_PIN_1|GPIO_PIN_2;
   GPIOC->CR1=GPIO_PIN_1|GPIO_PIN_2;
   GPIOC->CR2=GPIO_PIN_1|GPIO_PIN_2;
 
   //高电平有效
   GPIOC->ODR|=GPIO_PIN_2;
+  */
   //测试风扇控制
   //GPIOC->ODR|=GPIO_PIN_1|GPIO_PIN_2;
-  TIMER1_Config();
+  //TIMER1_Config();
 
 
-  TIM1_SetCompare1(1600);
+  //TIM1_SetCompare1(1600);
+
+  enableInterrupts();
 
   //测试PC3按键
   while(1)
   {
-    if(MY_GPIO_ReadInputPin(GPIOC, GPIO_PIN_3))
+    /*
+    if(MY_GPIO_ReadInputPin(KEY_PORT, KEY_PIN))
     {
-      GPIOF->ODR|=GPIO_PIN_4;
+      LED_PORT->ODR|=LED_PIN;
     }
     else
     {
-      GPIOF->ODR&=~GPIO_PIN_4;
+      LED_PORT->ODR&=~LED_PIN;
     }
+    */
+    
   }
 
 

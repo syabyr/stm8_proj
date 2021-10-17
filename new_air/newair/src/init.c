@@ -15,9 +15,13 @@ void clock_init(void)
 void init_gpio()
 {
 	//LED init
-	GPIOF->DDR=GPIO_PIN_4;
-  GPIOF->CR1=GPIO_PIN_4;
-  GPIOF->CR2=GPIO_PIN_4;
+	LED_PORT->DDR=LED_PIN;
+  LED_PORT->CR1=LED_PIN;
+  LED_PORT->CR2=LED_PIN;
+
+  //KEY init
+  
+
 
 	//PA设置
 	//PA3:PWR_CTL,输出
