@@ -54,7 +54,6 @@ void main(void)
   
   /* Initialize the Interrupt sensitivity */
   EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_ONLY);
-  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOD, EXTI_SENSITIVITY_FALL_ONLY);
   EXTI_SetTLISensitivity(EXTI_TLISENSITIVITY_FALL_ONLY);
   
   enableInterrupts();
@@ -80,33 +79,9 @@ static void GPIO_Config(void)
 
   /* Initialize I/O in Input Mode with Interrupt for Joystick */
   GPIO_Init(KEY_PORT, (GPIO_Pin_TypeDef)(KEY_PIN),GPIO_MODE_IN_FL_IT);
-
-  GPIO_Init(IR_PORT, (GPIO_Pin_TypeDef)(IR_PIN),GPIO_MODE_IN_FL_IT);
   
 }
 
-#ifdef USE_FULL_ASSERT
-
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *   where the assert_param error has occurred.
-  * @param file: pointer to the source file name
-  * @param line: assert_param error line source number
-  * @retval None
-  */
-void assert_failed(uint8_t* file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-
-  /* Infinite loop */
-  (void)file;
-  (void)line;
-  while (1)
-  {
-  }
-}
-#endif
 
 /**
   * @}

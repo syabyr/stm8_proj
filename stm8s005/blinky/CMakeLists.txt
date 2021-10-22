@@ -11,6 +11,8 @@ set(DEVICE STM8S005)
 set(DEVICE_FLASH stm8s005k6)
 
 
+set(SKIP_TRAPS 0)
+
 include_directories(
 		${STD_LIB_DIR}/inc
 		./src
@@ -26,9 +28,10 @@ set(CMAKE_SYSTEM_NAME Generic) # No linux target etc
 set(CMAKE_C_FLAGS_INIT "")
 set(CMAKE_EXE_LINKER_FLAGS_INIT "")
 project(${PROJECT_NAME} C)
-SET(CMAKE_C_FLAGS "-mstm8 -lstm8 --opt-code-size --std-c99 -D${DEVICE}")
+SET(CMAKE_C_FLAGS "-mstm8 -lstm8 --opt-code-size -DSKIP_TRAPS=$(SKIP_TRAPS) -D${DEVICE}=1")
 
 set(C_FILES src/main.c
+			src/assert.c
 			src/stm8s_it.c)
 
 set(LIB_FILES	${STD_LIB_DIR}/src/stm8s_tim1.c
