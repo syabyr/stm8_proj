@@ -41,9 +41,14 @@ PRJ_INC_DIR = $(PRJ_ROOT)/src
 PRJ_SOURCE  = $(notdir $(wildcard $(PRJ_SRC_DIR)/*.c))
 PRJ_OBJECTS := $(addprefix $(OUTPUT_DIR)/, $(PRJ_SOURCE:.c=.c.rel))
 
+
+TOP_DIR=../../
+STDPERIPH_DIR = $(TOP_DIR)/StdPeriph_Driver/STM8S_StdPeriph_Driver/
+
+
 # set SPL paths
-SPL_SRC_DIR = ../STM8S_SPL_2.3.1/Libraries/STM8S_StdPeriph_Driver/src/
-SPL_INC_DIR = ../STM8S_SPL_2.3.1/Libraries/STM8S_StdPeriph_Driver/inc/
+SPL_SRC_DIR = $(STDPERIPH_DIR)/src/
+SPL_INC_DIR = $(STDPERIPH_DIR)/inc/
 # add all library sources used here
 #SPL_SOURCE  = stm8s_uart2.c
 #SPL_SOURCE  += stm8s_clk.c

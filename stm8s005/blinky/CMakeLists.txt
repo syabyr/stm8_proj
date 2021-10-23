@@ -4,8 +4,11 @@ set(PROJECT_NAME blink)
 
 
 
-set(STD_LIB_DIR /Users/mybays/develop/stm8/STM8S_StdPeriph_Lib/Libraries/STM8S_StdPeriph_Driver)
+set(TOP_DIR ../../)
+set(STDPERIPH_DIR ${TOP_DIR}/StdPeriph_Driver/STM8S_StdPeriph_Driver/)
 
+set(SPL_SRC_DIR ${STDPERIPH_DIR}/src/)
+set(SPL_INC_DIR ${STDPERIPH_DIR}/inc/)
 
 set(DEVICE STM8S005)
 set(DEVICE_FLASH stm8s005k6)
@@ -14,7 +17,7 @@ set(DEVICE_FLASH stm8s005k6)
 set(SKIP_TRAPS 0)
 
 include_directories(
-		${STD_LIB_DIR}/inc
+		${SPL_INC_DIR}
 		./src
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/StdPeriph
@@ -28,15 +31,15 @@ set(CMAKE_SYSTEM_NAME Generic) # No linux target etc
 set(CMAKE_C_FLAGS_INIT "")
 set(CMAKE_EXE_LINKER_FLAGS_INIT "")
 project(${PROJECT_NAME} C)
-SET(CMAKE_C_FLAGS "-mstm8 -lstm8 --opt-code-size -DSKIP_TRAPS=$(SKIP_TRAPS) -D${DEVICE}=1")
+SET(CMAKE_C_FLAGS "-mstm8 -lstm8 --opt-code-size -DSKIP_TRAPS=${SKIP_TRAPS} -D${DEVICE}=1")
 
 set(C_FILES src/main.c
 			src/assert.c
 			src/stm8s_it.c)
 
-set(LIB_FILES	${STD_LIB_DIR}/src/stm8s_tim1.c
-				${STD_LIB_DIR}/src/stm8s_gpio.c
-				${STD_LIB_DIR}/src/stm8s_exti.c
+set(LIB_FILES	${SPL_SRC_DIR}/stm8s_tim1.c
+				${SPL_SRC_DIR}/stm8s_gpio.c
+				${SPL_SRC_DIR}/stm8s_exti.c
 				)
 
 add_executable(${PROJECT_NAME} ${C_FILES} ${LIB_FILES})
