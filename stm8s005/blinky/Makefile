@@ -55,6 +55,8 @@ SPL_INC_DIR = $(STDPERIPH_DIR)/inc/
 SPL_SOURCE  += stm8s_tim1.c
 SPL_SOURCE  += stm8s_gpio.c
 SPL_SOURCE  += stm8s_exti.c
+
+
 SPL_OBJECTS := $(addprefix $(OUTPUT_DIR)/, $(SPL_SOURCE:.c=.c.rel))
 
 # collect all include folders

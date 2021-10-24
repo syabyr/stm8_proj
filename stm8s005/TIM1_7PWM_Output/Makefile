@@ -16,6 +16,8 @@
 DEVICE=STM8S005
 DEVICE_FLASH=stm8s005k6
 
+PROJECT_NAME=tim1_pwm_output
+
 # trap handling requires SDCC >=v3.4.3
 SKIP_TRAPS = 0
 
@@ -29,7 +31,7 @@ CFLAGS  = -mstm8 -lstm8 --opt-code-size
 
 # set output folder and target name
 OUTPUT_DIR = ./$(DEVICE)
-TARGET     = $(OUTPUT_DIR)/$(DEVICE).hex
+TARGET     = $(OUTPUT_DIR)/$(PROJECT_NAME).hex
 
 # set project folder and files (all *.c)
 PRJ_ROOT    = .
@@ -37,18 +39,25 @@ PRJ_SRC_DIR = $(PRJ_ROOT)/src
 PRJ_INC_DIR = $(PRJ_ROOT)/src
 # all project sources included by default
 PRJ_SOURCE  = $(notdir $(wildcard $(PRJ_SRC_DIR)/*.c))
-PRJ_OBJECTS := $(addprefix $(OUTPUT_DIR)/, $(PRJ_SOURCE:.c=.rel))
+PRJ_OBJECTS := $(addprefix $(OUTPUT_DIR)/, $(PRJ_SOURCE:.c=.c.rel))
+
+
+TOP_DIR=../../
+STDPERIPH_DIR = $(TOP_DIR)/StdPeriph_Driver/STM8S_StdPeriph_Driver/
+
 
 # set SPL paths
-SPL_SRC_DIR = ../STM8S_SPL_2.3.1/Libraries/STM8S_StdPeriph_Driver/src/
-SPL_INC_DIR = ../STM8S_SPL_2.3.1/Libraries/STM8S_StdPeriph_Driver/inc/
+SPL_SRC_DIR = $(STDPERIPH_DIR)/src/
+SPL_INC_DIR = $(STDPERIPH_DIR)/inc/
 # add all library sources used here
 #SPL_SOURCE  = stm8s_uart2.c
 #SPL_SOURCE  += stm8s_clk.c
 SPL_SOURCE  += stm8s_tim1.c
 SPL_SOURCE  += stm8s_gpio.c
 SPL_SOURCE  += stm8s_exti.c
-SPL_OBJECTS := $(addprefix $(OUTPUT_DIR)/, $(SPL_SOURCE:.c=.rel))
+
+
+SPL_OBJECTS := $(addprefix $(OUTPUT_DIR)/, $(SPL_SOURCE:.c=.c.rel))
 
 # collect all include folders
 INCLUDE = -I$(PRJ_SRC_DIR) -I$(SPL_INC_DIR) 
@@ -63,19 +72,19 @@ all: $(OUTPUT_DIR) $(TARGET)
 $(OUTPUT_DIR):
 	mkdir $@
 
-$(OUTPUT_DIR)/%.rel: %.c
+$(OUTPUT_DIR)/%.c.rel: %.c
 	$(CC) $(CFLAGS) -D$(DEVICE) $(INCLUDE) -DSKIP_TRAPS=$(SKIP_TRAPS) -D${DEVICE}=1 -c $?
 
-$(OUTPUT_DIR)/%.rel: %.c
+$(OUTPUT_DIR)/%.c.rel: %.c
 	$(CC) $(CFLAGS) -D$(DEVICE) $(INCLUDE) -DSKIP_TRAPS=$(SKIP_TRAPS) -D${DEVICE}=1 -c $? -o $@
 
 $(TARGET): $(PRJ_OBJECTS) $(SPL_OBJECTS)
 	$(CC) $(CFLAGS) -o $(TARGET) $^
 
-flash: $(TARGET)
+flash: $(OUTPUT_DIR) $(TARGET)
 	stm8flash -c stlinkv2 -p $(DEVICE_FLASH) -s flash -w $(TARGET)
 
-bin: $(TARGET)
+bin: $(OUTPUT_DIR) $(TARGET)
 	hex2bin $(TARGET)
 
 clean:
