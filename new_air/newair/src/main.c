@@ -1,10 +1,11 @@
 /**
   ******************************************************************************
-  * @file    EXTI_InterruptPriority\main.c
+  * @file UART1_Printf\main.c
+  * @brief This file contains the main function for: retarget the C library printf
+  *        /scanf functions to the UART1 example.
   * @author  MCD Application Team
-  * @version V2.0.4
-  * @date    26-April-2018
-  * @brief   This file contains the main function for the EXTI Interrupt Priority example.
+  * @version  V2.2.0
+  * @date     30-September-2014
   ******************************************************************************
   * @attention
   *
@@ -23,167 +24,191 @@
   * limitations under the License.
   *
   ******************************************************************************
-  */  
+  */ 
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm8s.h"
+#include "stdio.h"
 #include "main.h"
-#include "stm8s_it.h"
-#include "common.h"
-#include "init.h"
-//#include "basic.h"
-#include "define.h"
-
+/**
+  * @addtogroup UART1_Printf
+  * @{
+  */
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
 #ifdef _RAISONANCE_
-#define PUTCHAR_PROTOTYPE int putchar (char c)
-#define GETCHAR_PROTOTYPE int getchar (void)
+  #define PUTCHAR_PROTOTYPE int putchar (char c)
+  #define GETCHAR_PROTOTYPE int getchar (void)
 #elif defined (_COSMIC_)
-#define PUTCHAR_PROTOTYPE char putchar (char c)
-#define GETCHAR_PROTOTYPE char getchar (void)
-#elif defined (_SDCC_)  // SDCC Patch: declared same as stdio.h
-#define PUTCHAR_PROTOTYPE void putchar (char c)
-#define GETCHAR_PROTOTYPE char getchar (void)
+  #define PUTCHAR_PROTOTYPE char putchar (char c)
+  #define GETCHAR_PROTOTYPE char getchar (void)
+#elif defined (_SDCC_)         /* SDCC patch: ensure same types as stdio.h */
+  #if SDCC_VERSION >= 30605      // declaration changed in sdcc 3.6.5 (officially with 3.7.0)
+    #define PUTCHAR_PROTOTYPE int putchar(int c)
+    #define GETCHAR_PROTOTYPE int getchar(void)
+  #else
+    #define PUTCHAR_PROTOTYPE void putchar(char c)
+    #define GETCHAR_PROTOTYPE int getchar(void)
+  #endif 
 #else /* _IAR_ */
-#define PUTCHAR_PROTOTYPE int putchar (int c)
-#define GETCHAR_PROTOTYPE int getchar (void)
+  #define PUTCHAR_PROTOTYPE int putchar (int c)
+  #define GETCHAR_PROTOTYPE int getchar (void)
 #endif /* _RAISONANCE_ */
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
 
 
-void Delay(uint16_t nCount)
+
+/**
+  * @brief  Main program.
+  * @param  None
+  * @retval None
+  */
+void main(void)
 {
-  uint8_t i;
-  for(; nCount !=0 ; nCount--) {
-    for(i=255;i!=0;i--) {}
+  //char ans;
+  /*High speed internal clock prescaler: 1*/
+  CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
+
+  GPIO_Config();  
+
+  /* Initialize the Interrupt sensitivity */
+  //key
+  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_RISE_FALL);
+  //ir
+  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOD, EXTI_SENSITIVITY_FALL_ONLY);
+  EXTI_SetTLISensitivity(EXTI_TLISENSITIVITY_FALL_ONLY);
+  
+
+
+  GPIO_WriteReverse(LED_PORT, LED_PIN);
+
+  UART2_Config();
+  TIM1_Config();
+  TIM3_Config();
+
+  enableInterrupts();
+  
+
+
+  while (1)
+  {
+    //printf("\n\rEnter Text\n\r");
+    //ans = getchar();
+    //printf("%c", ans);  
   }
 }
-
-static void TIMER1_Config()
-{
-  TIM1_DeInit();
-  TIM1_TimeBaseInit(0, TIM1_COUNTERMODE_UP, 3200, 0);
-  TIM1_OC1Init(TIM1_OCMODE_PWM2, TIM1_OUTPUTSTATE_ENABLE, TIM1_OUTPUTNSTATE_ENABLE,
-               511, TIM1_OCPOLARITY_LOW, TIM1_OCNPOLARITY_HIGH, TIM1_OCIDLESTATE_SET,
-               TIM1_OCNIDLESTATE_RESET);
-
-  TIM1_Cmd(ENABLE);
-  TIM1_CtrlPWMOutputs(ENABLE);
-}
-
 
 
 static void GPIO_Config(void)
 {
-  /* Initialize I/Os in Output Mode for LEDs */
+  /* Initialize I/Os in Output Mode for RED LED */
   GPIO_Init(LED_PORT, (GPIO_Pin_TypeDef)(LED_PIN),GPIO_MODE_OUT_PP_HIGH_FAST);
 
-  /* Initialize I/O in Input Mode with Interrupt for Joystick */
+  /* Initialize I/O in Input Mode with Interrupt for KEY */
   GPIO_Init(KEY_PORT, (GPIO_Pin_TypeDef)(KEY_PIN),GPIO_MODE_IN_FL_IT);
+
+  /* Initialize I/O in Input Mode for IR */
+  GPIO_Init(IR_PORT, (GPIO_Pin_TypeDef)(IR_PIN),GPIO_MODE_IN_FL_NO_IT);
+
+  /* Initialize I/Os in Output Mode for FAN SW */
+  GPIO_Init(FAN_PORT, (GPIO_Pin_TypeDef)(FAN_SW_PIN),GPIO_MODE_OUT_PP_HIGH_FAST);
   
 }
 
 
-//20191112-fan控制
-void main(void)
+void UART2_Config(void)
 {
-  MY_CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
-
-  disableInterrupts();
-  
-  GPIO_Config();
-
-  /* Initialize the Interrupt sensitivity */
-  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_ONLY);
-  EXTI_SetTLISensitivity(EXTI_TLISENSITIVITY_FALL_ONLY);
-
-
-
-    /* Initialize I/Os in Output Mode for LEDs */
-  GPIO_Init(LED_PORT, (GPIO_Pin_TypeDef)(LED_PIN),
-            GPIO_MODE_OUT_PP_HIGH_FAST);
-
-  GPIO_Init(KEY_PORT, (GPIO_Pin_TypeDef)(KEY_PIN),
-            GPIO_MODE_IN_FL_IT);
-
-  /* Initialize the Interrupt sensitivity */
-  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_ONLY);
-  EXTI_SetTLISensitivity(EXTI_TLISENSITIVITY_FALL_ONLY);
-
-  enableInterrupts();
-
-  while(1)
-  {
-    
-  }
-
-  
-  GPIO_WriteReverse(LED_PORT, LED_PIN);
-
-  //PC1,pwm output
-  //PC2,control output,active high
-  //PC3,input,fan speed feedback
-  /*
-  GPIOC->DDR=GPIO_PIN_1|GPIO_PIN_2;
-  GPIOC->CR1=GPIO_PIN_1|GPIO_PIN_2;
-  GPIOC->CR2=GPIO_PIN_1|GPIO_PIN_2;
-
-  //高电平有效
-  GPIOC->ODR|=GPIO_PIN_2;
-  */
-  //测试风扇控制
-  //GPIOC->ODR|=GPIO_PIN_1|GPIO_PIN_2;
-  //TIMER1_Config();
-
-
-  //TIM1_SetCompare1(1600);
-
-  enableInterrupts();
-
-  //测试PC3按键
-  while(1)
-  {
-    /*
-    if(MY_GPIO_ReadInputPin(KEY_PORT, KEY_PIN))
-    {
-      LED_PORT->ODR|=LED_PIN;
-    }
-    else
-    {
-      LED_PORT->ODR&=~LED_PIN;
-    }
+    UART2_DeInit();
+    /* UART1 configuration ------------------------------------------------------*/
+    /* UART1 configured as follow:
+          - BaudRate = 115200 baud
+          - Word Length = 8 Bits
+          - One Stop Bit
+          - No parity
+          - Receive and transmit enabled
+          - UART1 Clock disabled
     */
-    
-  }
+    UART2_Init((uint32_t)115200, UART2_WORDLENGTH_8D, UART2_STOPBITS_1, UART2_PARITY_NO,
+               UART2_SYNCMODE_CLOCK_DISABLE, UART2_MODE_TXRX_ENABLE);
 
-
-  //测试LED
-  while(1)
-  {
-      Delay(4000);
-      GPIOF->ODR|=GPIO_PIN_4;
-      Delay(8000);
-      GPIOF->ODR&=~GPIO_PIN_4;
-  }
+    /* Output a message on Hyperterminal using printf function */
+    printf("\n\rfan start\n\r");
 }
-#ifdef USE_FULL_ASSERT
+
+
+/*风扇控制pwm 初始化*/
+void TIM1_Config(void)
+{
+    TIM1_DeInit();
+
+    TIM1_TimeBaseInit(0, TIM1_COUNTERMODE_UP, 3200, 0);
+
+    TIM1_OC1Init(TIM1_OCMODE_PWM2, TIM1_OUTPUTSTATE_ENABLE, TIM1_OUTPUTNSTATE_ENABLE,
+                 3100, TIM1_OCPOLARITY_LOW, TIM1_OCNPOLARITY_HIGH, TIM1_OCIDLESTATE_SET,
+                 TIM1_OCNIDLESTATE_RESET);
+    TIM1_Cmd(ENABLE);
+    TIM1_CtrlPWMOutputs(ENABLE);
+}
+
+/*风扇测速 初始化*/
+void TIM2_Config(void)
+{
+
+}
+
+/*IR 捕获 初始化*/
+void TIM3_Config(void)
+{
+    TIM3_TimeBaseInit(TIM3_PRESCALER_16,60000-1);
+    //通道1,下降沿生效,
+    TIM3_ICInit( TIM3_CHANNEL_1, TIM3_ICPOLARITY_FALLING, TIM3_ICSELECTION_DIRECTTI,
+                 TIM3_ICPSC_DIV1, 0x0);
+
+    TIM3_ClearFlag(TIM3_FLAG_CC1);
+    TIM3_ITConfig(TIM3_IT_UPDATE,ENABLE);
+    TIM3_ITConfig(TIM3_IT_CC1,ENABLE);
+    TIM3_Cmd(ENABLE);
+
+    return;
+}
 
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *   where the assert_param error has occurred.
-  * @param file: pointer to the source file name
-  * @param line: assert_param error line source number
-  * @retval None
+  * @brief Retargets the C library printf function to the UART.
+  * @param c Character to send
+  * @retval char Character sent
   */
-void assert_failed(uint8_t* file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+PUTCHAR_PROTOTYPE
+{
+  /* Write a character to the UART1 */
+  UART2_SendData8(c);
+  /* Loop until the end of transmission */
+  while (UART2_GetFlagStatus(UART2_FLAG_TXE) == RESET);
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+  return (c);
+
 }
+
+/**
+  * @brief Retargets the C library scanf function to the USART.
+  * @param None
+  * @retval char Character to Read
+  */
+GETCHAR_PROTOTYPE
+{
+#ifdef _COSMIC_
+  char c = 0;
+#else
+  int c = 0;
 #endif
+  /* Loop until the Read data register flag is SET */
+  while (UART2_GetFlagStatus(UART2_FLAG_RXNE) == RESET);
+    c = UART2_ReceiveData8();
+  return (c);
+}
+
 
 /**
   * @}

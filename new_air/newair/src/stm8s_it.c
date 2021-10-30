@@ -28,7 +28,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm8s_it.h"
 #include "main.h"
-#include "define.h"
+#include "ir.h"
+#include <stdio.h>
+#include "fan.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -73,7 +76,7 @@ INTERRUPT_HANDLER_TRAP(TRAP_IRQHandler)
   */
 INTERRUPT_HANDLER(TLI_IRQHandler, 0)
 {
-  GPIO_WriteReverse(LED_PORT, (GPIO_Pin_TypeDef)(LED_PIN));
+  //GPIO_WriteReverse(LED_PORT, (GPIO_Pin_TypeDef)(LED_PIN));
 
 }
 
@@ -136,6 +139,7 @@ INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
   if ((GPIO_ReadInputData(KEY_PORT) & KEY_PIN) == 0x00)
   {
     GPIO_WriteReverse(LED_PORT, LED_PIN);
+    fan_sw();
   }
 }
 
@@ -149,6 +153,11 @@ INTERRUPT_HANDLER(EXTI_PORTD_IRQHandler, 6)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
+  if ((GPIO_ReadInputData(IR_PORT) & IR_PIN) == 0x00)
+  {
+    GPIO_WriteReverse(LED_PORT, LED_PIN);
+  }
+    TIM3_Config();
 }
 
 /**
@@ -300,6 +309,11 @@ INTERRUPT_HANDLER(TIM1_CAP_COM_IRQHandler, 12)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
+
+  ov_handler();
+  TIM3_ClearITPendingBit(TIM3_IT_UPDATE);
+  TIM3_ICInit( TIM3_CHANNEL_1, TIM3_ICPOLARITY_FALLING, TIM3_ICSELECTION_DIRECTTI,
+                 TIM3_ICPSC_DIV1, 0x0);
 }
 
 /**
@@ -312,6 +326,12 @@ INTERRUPT_HANDLER(TIM1_CAP_COM_IRQHandler, 12)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
+  cap_handler();
+
+
+  TIM3_ClearFlag(TIM3_FLAG_CC1);
+  TIM3_SetCounter(0);
+  TIM3_ClearITPendingBit(TIM3_IT_CC1);
 }
 #endif /*STM8S208, STM8S207 or STM8S105 or STM8AF62Ax or STM8AF52Ax or STM8AF626x */
 

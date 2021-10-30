@@ -33,13 +33,36 @@
 /* Private define ------------------------------------------------------------*/
 /* Evalboard I/Os configuration */
 
+#define LED_PORT (GPIOF)
+#define LED_PIN  (GPIO_PIN_4)
 
+
+#define KEY_PORT (GPIOC)
+#define KEY_PIN  (GPIO_PIN_3)
+
+#define IR_PORT (GPIOD)
+#define IR_PIN (GPIO_PIN_2)
+
+#define FAN_PORT (GPIOC)
+#define FAN_PWM_PIN (GPIO_PIN_1)
+#define FAN_SW_PIN (GPIO_PIN_2)
+
+#define FAN_SENSE_PORT (GPIOD)
+#define FAN_SENSE_PIN (GPIO_PIN4)
 
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Public functions ----------------------------------------------------------*/
+
+
+
+static void GPIO_Config(void);
+void UART2_Config(void);
+void TIM1_Config(void);
+void TIM2_Config(void);
+void TIM3_Config(void);
 
 #endif /* __MAIN_H */
 
