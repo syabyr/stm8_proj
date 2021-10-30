@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-set(PROJECT_NAME blink)
-
-
+set(PROJECT_NAME 38Kprint)
 
 set(TOP_DIR ../../)
 set(STDPERIPH_DIR ${TOP_DIR}/StdPeriph_Driver/STM8S_StdPeriph_Driver/)
@@ -16,17 +14,26 @@ set(DEVICE_FLASH stm8s005k6)
 
 set(SKIP_TRAPS 0)
 
+set(SDCC_SYSTEM_INCLUDES
+		/usr/local/Cellar/sdcc/4.1.0/share/sdcc/include)
+
+
 include_directories(
+		${SDCC_SYSTEM_INCLUDES}
 		${SPL_INC_DIR}
 		./src
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/StdPeriph
         ${STM8_StdPeriph_INCLUDE_DIR}
 )
+include_directories(include)
+include_directories()
 
 set(CMAKE_C_OUTPUT_EXTENSION ".rel")
+set(CMAKE_C_COMPILER_ID SDCC)
 set(CMAKE_C_COMPILER sdcc)
 include (Platform/Generic-SDCC-C)
+set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_SYSTEM_NAME Generic) # No linux target etc
 # Prevent default configuration
 set(CMAKE_C_FLAGS_INIT "")

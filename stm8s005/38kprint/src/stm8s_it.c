@@ -308,8 +308,6 @@ INTERRUPT_HANDLER(TIM1_CAP_COM_IRQHandler, 12)
      it is recommended to set a breakpoint on the following instruction.
   */
 
-  //uint16_t num=TIM3_GetCounter();
-  //printf("tim3 ovf:%d\r\n",num);
   ov_handler();
   TIM3_ClearITPendingBit(TIM3_IT_UPDATE);
   TIM3_ICInit( TIM3_CHANNEL_1, TIM3_ICPOLARITY_FALLING, TIM3_ICSELECTION_DIRECTTI,
@@ -328,15 +326,9 @@ INTERRUPT_HANDLER(TIM1_CAP_COM_IRQHandler, 12)
   */
   cap_handler();
 
-  //uint16_t num1=TIM3_GetCapture1();
-  //uint16_t num2=TIM3_GetCounter();
-  //printf("tim31 cap:%u,counter:%u\r\n",num1,num2);
-  //printf("tim3 triggered\r\n");
+
   TIM3_ClearFlag(TIM3_FLAG_CC1);
   TIM3_SetCounter(0);
-  //num1=TIM3_GetCapture1();
-  //num2=TIM3_GetCounter();
-  //printf("tim32 cap:%u,counter:%u\r\n",num1,num2);
   TIM3_ClearITPendingBit(TIM3_IT_CC1);
 }
 #endif /*STM8S208, STM8S207 or STM8S105 or STM8AF62Ax or STM8AF52Ax or STM8AF626x */

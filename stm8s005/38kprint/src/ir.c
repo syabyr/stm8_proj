@@ -3,43 +3,24 @@
 #include "main.h"
 #include <stdio.h>
 
-int8_t status;
-int8_t index;
+int8_t status;  //0:等待状态 1:首次捕获状态 2:
+uint16_t shift;    //临时移位寄存器变量
+uint16_t addr;  //地址数据
+uint16_t cmd;   //命令数据
 
-uint16_t cap[32];
-
-uint16_t addr;
-uint16_t cmd;
-
-uint16_t shift;
-
-void ir_init()
-{
-	status = 0;
-	return;
-}
 
 
 void ov_handler()
 {
+    //溢出的时候打印详细情况
     if(0 != status)
     {
         status = 0;
-        int8_t temp;
-        for(temp=0;temp<index;temp++)
-        {
-            printf("cap:%d:%u\r\n",temp,cap[temp]);
-        }
-        index = 0;
-        /*
         if((cmd > 0)||(addr > 0))
         {
             printf("addr:0x%02x,cmd:0x%02x\r\n",addr,cmd);
         }
-         */
-        printf("ov_handler----------\r\n");
-        TIM3_ICInit( TIM3_CHANNEL_1, TIM3_ICPOLARITY_FALLING, TIM3_ICSELECTION_DIRECTTI,
-                     TIM3_ICPSC_DIV1, 0x0);
+        printf("-ovf-\r\n");
     }
 }
 
@@ -53,23 +34,28 @@ void cap_handler()
         addr = 0;
         cmd = 0;
         shift = 0;
-        printf("start cap_handler----------\r\n");
+        printf("-cap-\r\n");
         TIM3_ICInit( TIM3_CHANNEL_1, TIM3_ICPOLARITY_RISING, TIM3_ICSELECTION_DIRECTTI,
                      TIM3_ICPSC_DIV1, 0x0);
     }
     else
     {
-        uint16_t temp=TIM3_GetCapture1();
-        if(temp > 2500)
+        uint16_t capValue=TIM3_GetCapture1();
+        //跳过引导码
+        if(capValue > 2500)
         {
             if(status == 1)
             {
                 status = 2;
             }
+            return;
         }
 
-        if(((temp < 2500) && (temp > 2000))||((temp < 1150) && (temp > 1100)))
+        //区间范围内的数据才认为是有效的
+        if(((capValue < IR_ONE_MAX) && (capValue > IR_ONE_MIN))
+        ||((capValue < IR_ZERO_MAX) && (capValue > IR_ZERO_MIN)))
         {
+            //如果不是首次捕获,先移位,在赋值
             if(status != 3)
             {
                 status =3;
@@ -78,16 +64,18 @@ void cap_handler()
             {
                 shift = shift<<1;
             }
-            if((temp < 2500) && (temp > 2000))
+            if((capValue < IR_ONE_MAX) && (capValue > IR_ONE_MIN))
             {
                 shift|=1;
             }
         }
         else
         {
+            //此时应该打印错误
+            printf("erlen:%d\r\n",capValue);
             return;
         }
-
+        //前面状态没有细分,所以每次移位后都要取高低位进行判断
         uint8_t high=(shift&0xff00)>>8;
         uint8_t low=(int8_t)(shift&0x00ff);
 
@@ -97,6 +85,7 @@ void cap_handler()
         {
             if(addr == 0)
             {
+                //addr为0的情况,说明当前是地址匹配成功,重新初始化,进行命令匹配
                 addr = high;
                 shift = 0;
                 low = 0;
@@ -106,8 +95,9 @@ void cap_handler()
             }
             else
             {
+                //否则是命令匹配成功
                 cmd = high;
-                temp = 0;
+                capValue = 0;
                 //printf("cmd:0x%02x,low:0x%02x,high:0x%02x\r\n",cmd,low,high);
             }
         }
@@ -116,7 +106,4 @@ void cap_handler()
             printf("addr:0x%02x,cmd:0x%02x\r\n",addr,cmd);
         }
     }
-
-    //printf("tim31 cap:%u,counter:%u\r\n",num1,num2);
-
 }
