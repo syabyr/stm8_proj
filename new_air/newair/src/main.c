@@ -175,6 +175,17 @@ void TIM3_Config(void)
     return;
 }
 
+void IWDG_Config(void)
+{
+    IWDG_Enable();
+    IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);
+    IWDG_SetPrescaler(IWDG_Prescaler_128);
+    //__IO uint32_t LsiFreq = LSIMeasurment();
+    //IWDG_SetReload((uint8_t)(LsiFreq/512));
+    IWDG_SetReload(255);
+    IWDG_ReloadCounter();
+}
+
 /**
   * @brief Retargets the C library printf function to the UART.
   * @param c Character to send

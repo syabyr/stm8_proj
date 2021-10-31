@@ -63,6 +63,7 @@ void UART2_Config(void);
 void TIM1_Config(void);
 void TIM2_Config(void);
 void TIM3_Config(void);
+void IWDG_Config(void);
 
 #endif /* __MAIN_H */
 
