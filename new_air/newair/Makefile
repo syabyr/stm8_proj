@@ -53,9 +53,14 @@ SPL_INC_DIR = $(STDPERIPH_DIR)/inc/
 SPL_SOURCE  = stm8s_uart2.c
 SPL_SOURCE  += stm8s_clk.c
 SPL_SOURCE  += stm8s_tim1.c
+SPL_SOURCE  += stm8s_tim2.c
 SPL_SOURCE  += stm8s_tim3.c
+SPL_SOURCE  += stm8s_tim4.c
 SPL_SOURCE  += stm8s_gpio.c
 SPL_SOURCE  += stm8s_exti.c
+SPL_SOURCE  += stm8s_iwdg.c
+SPL_SOURCE  += stm8s_flash.c
+
 
 
 SPL_OBJECTS := $(addprefix $(OUTPUT_DIR)/, $(SPL_SOURCE:.c=.c.rel))

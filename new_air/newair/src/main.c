@@ -156,6 +156,14 @@ void TIM1_Config(void)
 /*风扇测速 初始化*/
 void TIM2_Config(void)
 {
+    //16分频,60ms溢出
+    TIM2_TimeBaseInit(TIM2_PRESCALER_16,60000-1);
+    TIM2_ICInit( TIM2_CHANNEL_1, TIM2_ICPOLARITY_FALLING, TIM2_ICSELECTION_DIRECTTI,
+                 TIM2_ICPSC_DIV1, 0x0);
+    TIM2_ClearFlag(TIM2_FLAG_CC1);
+    TIM2_ITConfig(TIM2_IT_UPDATE,ENABLE);
+    TIM2_ITConfig(TIM2_IT_CC1,ENABLE);
+    TIM2_Cmd(ENABLE);
 
 }
 
@@ -173,6 +181,15 @@ void TIM3_Config(void)
     TIM3_Cmd(ENABLE);
 
     return;
+}
+
+/* 定时任务处理*/
+void TIM4_Config(void)
+{
+    TIM4_TimeBaseInit(TIM4_PRESCALER_128,250-1);  //2ms中断一次
+    TIM4_ClearFlag(TIM4_FLAG_UPDATE);
+    TIM4_ITConfig(TIM4_IT_UPDATE,ENABLE);
+    TIM4_Cmd(ENABLE);
 }
 
 void IWDG_Config(void)

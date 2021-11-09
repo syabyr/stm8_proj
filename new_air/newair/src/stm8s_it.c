@@ -282,6 +282,9 @@ INTERRUPT_HANDLER(TIM1_CAP_COM_IRQHandler, 12)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
+  //溢出中断,判断当前状态,更新相关数据
+  sd_on_ovf();
+  TIM2_ClearITPendingBit(TIM2_IT_UPDATE);
 }
 
 /**
@@ -294,6 +297,10 @@ INTERRUPT_HANDLER(TIM1_CAP_COM_IRQHandler, 12)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
+    sd_on_cap();
+    TIM2_ClearFlag(TIM2_FLAG_CC1);
+    TIM2_SetCounter(0);
+    TIM2_ClearITPendingBit(TIM2_IT_CC1);
 }
 #endif /*STM8S903*/
 
@@ -478,6 +485,9 @@ INTERRUPT_HANDLER(TIM6_UPD_OVF_TRG_IRQHandler, 23)
   */
  INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
 {
+     //TIM4溢出中断
+     TIM4_ClearITPendingBit(TIM4_IT_UPDATE);
+
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */

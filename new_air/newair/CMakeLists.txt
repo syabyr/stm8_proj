@@ -51,11 +51,15 @@ set(C_FILES src/main.c
 			src/stm8s_it.c)
 
 set(LIB_FILES	${SPL_SRC_DIR}/stm8s_tim1.c
+				${SPL_SRC_DIR}/stm8s_tim2.c
 				${SPL_SRC_DIR}/stm8s_tim3.c
+				${SPL_SRC_DIR}/stm8s_tim4.c
 				${SPL_SRC_DIR}/stm8s_gpio.c
 				${SPL_SRC_DIR}/stm8s_exti.c
 				${SPL_SRC_DIR}/stm8s_uart2.c
 				${SPL_SRC_DIR}/stm8s_clk.c
+				${SPL_SRC_DIR}/stm8s_iwdg.c
+				${SPL_SRC_DIR}/stm8s_flash.c
 				)
 
 add_executable(${PROJECT_NAME} ${C_FILES} ${LIB_FILES})
