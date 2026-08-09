@@ -1,8 +1,0 @@
-/Users/mybays/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/cmake-build-debug
-
-Problems were encountered while collecting compiler information:
-	Unexpected compiler output.This compiler might be unsupported.
-	If you are using GCC/Clang, please report the bug in https://youtrack.jetbrains.com/issues/CPP.
