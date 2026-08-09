@@ -1,0 +1,54 @@
+XH3
+H B areas 7 global symbols
+M fan
+O -mstm8
+S _GPIO_WriteReverse Ref000000
+S .__.ABS. Def000000
+S _TIM1_SetCompare1 Ref000000
+A _CODE size 0 flags 0 addr 0
+A DATA size 0 flags 0 addr 0
+A INITIALIZED size 2 flags 0 addr 0
+S _speed Def000000
+A DABS size 0 flags 8 addr 0
+A HOME size 0 flags 0 addr 0
+A GSINIT size 0 flags 0 addr 0
+A GSFINAL size 0 flags 0 addr 0
+A CONST size 0 flags 0 addr 0
+A INITIALIZER size 2 flags 0 addr 0
+A CODE size 3A flags 0 addr 0
+S _fan_up Def00000C
+S _fan_sw Def000000
+S _fan_down Def000023
+A CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 02
+T 00 00 00
+R 00 00 00 02
+T 00 00 00
+R 00 00 00 09
+T 00 00 00 4B 04 4B 0A 4B 50 CD 00 00 5B 03 81
+R 00 00 00 09 02 0A 00 00
+T 00 00 0C
+R 00 00 00 09
+T 00 00 0C CE 00 00 A3 01 2C 2D 06 1D 01 2C CF
+R 00 00 00 09 10 04 00 02
+T 00 00 18 00 00
+R 00 00 00 09 10 03 00 02
+T 00 00 1A
+R 00 00 00 09
+T 00 00 1A CE 00 00 89 CD 00 00 85 81
+R 00 00 00 09 10 04 00 02 02 08 00 02
+T 00 00 23
+R 00 00 00 09
+T 00 00 23 CE 00 00 A3 0C 80 2E 06 1C 01 2C CF
+R 00 00 00 09 10 04 00 02
+T 00 00 2F 00 00
+R 00 00 00 09 10 03 00 02
+T 00 00 31
+R 00 00 00 09
+T 00 00 31 CE 00 00 89 CD 00 00 85 81
+R 00 00 00 09 10 04 00 02 02 08 00 02
+T 00 00 00
+R 00 00 00 08
+T 00 00 00 00 00
+R 00 00 00 08

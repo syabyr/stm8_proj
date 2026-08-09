@@ -1,0 +1,5 @@
+/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/build/CMakeFiles/rebuild_cache.dir
+/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/build/CMakeFiles/edit_cache.dir
+/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/build/CMakeFiles/bin.dir
+/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/build/CMakeFiles/flash.dir
+/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/build/CMakeFiles/new_air.dir

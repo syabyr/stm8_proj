@@ -1,0 +1,380 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.0 #12072 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module fan
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _fan_off
+                                     12 	.globl _fan_on
+                                     13 	.globl _write_fan_speed
+                                     14 	.globl _puts
+                                     15 	.globl _TIM2_GetCapture1
+                                     16 	.globl _TIM1_SetCompare1
+                                     17 	.globl _GPIO_ReadInputData
+                                     18 	.globl _GPIO_WriteReverse
+                                     19 	.globl _GPIO_WriteLow
+                                     20 	.globl _GPIO_WriteHigh
+                                     21 	.globl _FLASH_ReadByte
+                                     22 	.globl _FLASH_ProgramByte
+                                     23 	.globl _nCounter
+                                     24 	.globl _speed_counter
+                                     25 	.globl _speed
+                                     26 	.globl _onoff_state
+                                     27 	.globl _fan_init
+                                     28 	.globl _fan_sw
+                                     29 	.globl _fan_up
+                                     30 	.globl _fan_down
+                                     31 	.globl _sd_on_cap
+                                     32 	.globl _sd_on_ovf
+                                     33 	.globl _ms2_update
+                                     34 ;--------------------------------------------------------
+                                     35 ; ram data
+                                     36 ;--------------------------------------------------------
+                                     37 	.area DATA
+                                     38 ;--------------------------------------------------------
+                                     39 ; ram data
+                                     40 ;--------------------------------------------------------
+                                     41 	.area INITIALIZED
+      000000                         42 _onoff_state::
+      000000                         43 	.ds 1
+      000001                         44 _speed::
+      000001                         45 	.ds 1
+      000002                         46 _speed_counter::
+      000002                         47 	.ds 2
+      000004                         48 _nCounter::
+      000004                         49 	.ds 2
+                                     50 ;--------------------------------------------------------
+                                     51 ; absolute external ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area DABS (ABS)
+                                     54 
+                                     55 ; default segment ordering for linker
+                                     56 	.area HOME
+                                     57 	.area GSINIT
+                                     58 	.area GSFINAL
+                                     59 	.area CONST
+                                     60 	.area INITIALIZER
+                                     61 	.area CODE
+                                     62 
+                                     63 ;--------------------------------------------------------
+                                     64 ; global & static initialisations
+                                     65 ;--------------------------------------------------------
+                                     66 	.area HOME
+                                     67 	.area GSINIT
+                                     68 	.area GSFINAL
+                                     69 	.area GSINIT
+                                     70 ;--------------------------------------------------------
+                                     71 ; Home
+                                     72 ;--------------------------------------------------------
+                                     73 	.area HOME
+                                     74 	.area HOME
+                                     75 ;--------------------------------------------------------
+                                     76 ; code
+                                     77 ;--------------------------------------------------------
+                                     78 	.area CODE
+                                     79 ;	./src/fan.c: 11: void write_fan_speed(int8_t value)
+                                     80 ;	-----------------------------------------
+                                     81 ;	 function write_fan_speed
+                                     82 ;	-----------------------------------------
+      000000                         83 _write_fan_speed:
+                                     84 ;	./src/fan.c: 13: FLASH->CR1 &= (uint8_t)(~FLASH_CR1_FIX);
+      000000 C6 50 5A         [ 1]   85 	ld	a, 0x505a
+      000003 A4 FE            [ 1]   86 	and	a, #0xfe
+      000005 C7 50 5A         [ 1]   87 	ld	0x505a, a
+                                     88 ;	./src/fan.c: 14: FLASH->CR1 |= (uint8_t)FLASH_PROGRAMTIME_STANDARD;
+      000008 C6 50 5A         [ 1]   89 	ld	a, 0x505a
+      00000B C7 50 5A         [ 1]   90 	ld	0x505a, a
+                                     91 ;	./src/fan.c: 18: FLASH->DUKR = FLASH_RASS_KEY2; /* Warning: keys are reversed on data memory !!! */
+      00000E 35 AE 50 64      [ 1]   92 	mov	0x5064+0, #0xae
+                                     93 ;	./src/fan.c: 19: FLASH->DUKR = FLASH_RASS_KEY1;
+      000012 35 56 50 64      [ 1]   94 	mov	0x5064+0, #0x56
+                                     95 ;	./src/fan.c: 20: FLASH_ProgramByte(0x004010, value);
+      000016 7B 03            [ 1]   96 	ld	a, (0x03, sp)
+      000018 88               [ 1]   97 	push	a
+      000019 4B 10            [ 1]   98 	push	#0x10
+      00001B 4B 40            [ 1]   99 	push	#0x40
+      00001D 5F               [ 1]  100 	clrw	x
+      00001E 89               [ 2]  101 	pushw	x
+      00001F CDr00r00         [ 4]  102 	call	_FLASH_ProgramByte
+      000022 5B 05            [ 2]  103 	addw	sp, #5
+                                    104 ;	./src/fan.c: 22: }
+      000024 81               [ 4]  105 	ret
+                                    106 ;	./src/fan.c: 25: void fan_init()
+                                    107 ;	-----------------------------------------
+                                    108 ;	 function fan_init
+                                    109 ;	-----------------------------------------
+      000025                        110 _fan_init:
+      000025 89               [ 2]  111 	pushw	x
+                                    112 ;	./src/fan.c: 28: speed = FLASH_ReadByte(0x004010);
+      000026 4B 10            [ 1]  113 	push	#0x10
+      000028 4B 40            [ 1]  114 	push	#0x40
+      00002A 5F               [ 1]  115 	clrw	x
+      00002B 89               [ 2]  116 	pushw	x
+      00002C CDr00r00         [ 4]  117 	call	_FLASH_ReadByte
+      00002F 5B 04            [ 2]  118 	addw	sp, #4
+                                    119 ;	./src/fan.c: 29: if((speed<1)||(speed>10))
+      000031 C7u00u01         [ 1]  120 	ld	_speed+0, a
+      000034 A1 01            [ 1]  121 	cp	a, #0x01
+      000036 2F 07            [ 1]  122 	jrslt	00101$
+      000038 C6u00u01         [ 1]  123 	ld	a, _speed+0
+      00003B A1 0A            [ 1]  124 	cp	a, #0x0a
+      00003D 2D 0A            [ 1]  125 	jrsle	00102$
+      00003F                        126 00101$:
+                                    127 ;	./src/fan.c: 31: speed = 1;
+      00003F 35 01u00u01      [ 1]  128 	mov	_speed+0, #0x01
+                                    129 ;	./src/fan.c: 32: write_fan_speed(speed);
+      000043 4B 01            [ 1]  130 	push	#0x01
+      000045 CDr00r00         [ 4]  131 	call	_write_fan_speed
+      000048 84               [ 1]  132 	pop	a
+      000049                        133 00102$:
+                                    134 ;	./src/fan.c: 34: onoff_state = 1;
+      000049 35 01u00u00      [ 1]  135 	mov	_onoff_state+0, #0x01
+                                    136 ;	./src/fan.c: 35: TIM1_SetCompare1(300*(11-speed));
+      00004D C6u00u01         [ 1]  137 	ld	a, _speed+0
+      000050 6B 02            [ 1]  138 	ld	(0x02, sp), a
+      000052 49               [ 1]  139 	rlc	a
+      000053 4F               [ 1]  140 	clr	a
+      000054 A2 00            [ 1]  141 	sbc	a, #0x00
+      000056 6B 01            [ 1]  142 	ld	(0x01, sp), a
+      000058 AE 00 0B         [ 2]  143 	ldw	x, #0x000b
+      00005B 72 F0 01         [ 2]  144 	subw	x, (0x01, sp)
+      00005E 89               [ 2]  145 	pushw	x
+      00005F 4B 2C            [ 1]  146 	push	#0x2c
+      000061 4B 01            [ 1]  147 	push	#0x01
+      000063 CDr00r00         [ 4]  148 	call	__mulint
+      000066 5B 04            [ 2]  149 	addw	sp, #4
+      000068 89               [ 2]  150 	pushw	x
+      000069 CDr00r00         [ 4]  151 	call	_TIM1_SetCompare1
+                                    152 ;	./src/fan.c: 36: }
+      00006C 5B 04            [ 2]  153 	addw	sp, #4
+      00006E 81               [ 4]  154 	ret
+                                    155 ;	./src/fan.c: 39: void fan_on()
+                                    156 ;	-----------------------------------------
+                                    157 ;	 function fan_on
+                                    158 ;	-----------------------------------------
+      00006F                        159 _fan_on:
+                                    160 ;	./src/fan.c: 41: GPIO_WriteHigh(FAN_PORT,FAN_SW_PIN);
+      00006F 4B 04            [ 1]  161 	push	#0x04
+      000071 4B 0A            [ 1]  162 	push	#0x0a
+      000073 4B 50            [ 1]  163 	push	#0x50
+      000075 CDr00r00         [ 4]  164 	call	_GPIO_WriteHigh
+      000078 5B 03            [ 2]  165 	addw	sp, #3
+                                    166 ;	./src/fan.c: 42: GPIO_WriteHigh(LED_PORT,LED_PIN);
+      00007A 4B 10            [ 1]  167 	push	#0x10
+      00007C 4B 19            [ 1]  168 	push	#0x19
+      00007E 4B 50            [ 1]  169 	push	#0x50
+      000080 CDr00r00         [ 4]  170 	call	_GPIO_WriteHigh
+      000083 5B 03            [ 2]  171 	addw	sp, #3
+                                    172 ;	./src/fan.c: 43: onoff_state = 1;
+      000085 35 01u00u00      [ 1]  173 	mov	_onoff_state+0, #0x01
+                                    174 ;	./src/fan.c: 44: }
+      000089 81               [ 4]  175 	ret
+                                    176 ;	./src/fan.c: 46: void fan_off()
+                                    177 ;	-----------------------------------------
+                                    178 ;	 function fan_off
+                                    179 ;	-----------------------------------------
+      00008A                        180 _fan_off:
+                                    181 ;	./src/fan.c: 48: GPIO_WriteLow(FAN_PORT,FAN_SW_PIN);
+      00008A 4B 04            [ 1]  182 	push	#0x04
+      00008C 4B 0A            [ 1]  183 	push	#0x0a
+      00008E 4B 50            [ 1]  184 	push	#0x50
+      000090 CDr00r00         [ 4]  185 	call	_GPIO_WriteLow
+      000093 5B 03            [ 2]  186 	addw	sp, #3
+                                    187 ;	./src/fan.c: 49: GPIO_WriteLow(LED_PORT,LED_PIN);
+      000095 4B 10            [ 1]  188 	push	#0x10
+      000097 4B 19            [ 1]  189 	push	#0x19
+      000099 4B 50            [ 1]  190 	push	#0x50
+      00009B CDr00r00         [ 4]  191 	call	_GPIO_WriteLow
+      00009E 5B 03            [ 2]  192 	addw	sp, #3
+                                    193 ;	./src/fan.c: 50: onoff_state = 0;
+      0000A0 72 5Fu00u00      [ 1]  194 	clr	_onoff_state+0
+                                    195 ;	./src/fan.c: 51: }
+      0000A4 81               [ 4]  196 	ret
+                                    197 ;	./src/fan.c: 53: void fan_sw()
+                                    198 ;	-----------------------------------------
+                                    199 ;	 function fan_sw
+                                    200 ;	-----------------------------------------
+      0000A5                        201 _fan_sw:
+                                    202 ;	./src/fan.c: 56: GPIO_WriteReverse(FAN_PORT, FAN_SW_PIN);
+      0000A5 4B 04            [ 1]  203 	push	#0x04
+      0000A7 4B 0A            [ 1]  204 	push	#0x0a
+      0000A9 4B 50            [ 1]  205 	push	#0x50
+      0000AB CDr00r00         [ 4]  206 	call	_GPIO_WriteReverse
+      0000AE 5B 03            [ 2]  207 	addw	sp, #3
+                                    208 ;	./src/fan.c: 58: GPIO_WriteReverse(LED_PORT, LED_PIN);
+      0000B0 4B 10            [ 1]  209 	push	#0x10
+      0000B2 4B 19            [ 1]  210 	push	#0x19
+      0000B4 4B 50            [ 1]  211 	push	#0x50
+      0000B6 CDr00r00         [ 4]  212 	call	_GPIO_WriteReverse
+      0000B9 5B 03            [ 2]  213 	addw	sp, #3
+                                    214 ;	./src/fan.c: 61: if ((GPIO_ReadInputData(FAN_PORT) & FAN_SW_PIN) == 0x00)
+      0000BB 4B 0A            [ 1]  215 	push	#0x0a
+      0000BD 4B 50            [ 1]  216 	push	#0x50
+      0000BF CDr00r00         [ 4]  217 	call	_GPIO_ReadInputData
+      0000C2 85               [ 2]  218 	popw	x
+      0000C3 A5 04            [ 1]  219 	bcp	a, #0x04
+      0000C5 26 05            [ 1]  220 	jrne	00102$
+                                    221 ;	./src/fan.c: 63: onoff_state = 0;
+      0000C7 72 5Fu00u00      [ 1]  222 	clr	_onoff_state+0
+      0000CB 81               [ 4]  223 	ret
+      0000CC                        224 00102$:
+                                    225 ;	./src/fan.c: 67: onoff_state = 1;
+      0000CC 35 01u00u00      [ 1]  226 	mov	_onoff_state+0, #0x01
+                                    227 ;	./src/fan.c: 72: }
+      0000D0 81               [ 4]  228 	ret
+                                    229 ;	./src/fan.c: 74: void fan_up()
+                                    230 ;	-----------------------------------------
+                                    231 ;	 function fan_up
+                                    232 ;	-----------------------------------------
+      0000D1                        233 _fan_up:
+      0000D1 89               [ 2]  234 	pushw	x
+                                    235 ;	./src/fan.c: 76: if(onoff_state != 1)
+      0000D2 C6u00u00         [ 1]  236 	ld	a, _onoff_state+0
+      0000D5 4A               [ 1]  237 	dec	a
+                                    238 ;	./src/fan.c: 78: return;
+      0000D6 26 32            [ 1]  239 	jrne	00105$
+                                    240 ;	./src/fan.c: 80: if(speed<10)
+      0000D8 C6u00u01         [ 1]  241 	ld	a, _speed+0
+      0000DB A1 0A            [ 1]  242 	cp	a, #0x0a
+      0000DD 2E 2B            [ 1]  243 	jrsge	00105$
+                                    244 ;	./src/fan.c: 82: speed++;
+      0000DF 72 5Cu00u01      [ 1]  245 	inc	_speed+0
+                                    246 ;	./src/fan.c: 83: TIM1_SetCompare1(300*(11-speed));
+      0000E3 C6u00u01         [ 1]  247 	ld	a, _speed+0
+      0000E6 6B 02            [ 1]  248 	ld	(0x02, sp), a
+      0000E8 49               [ 1]  249 	rlc	a
+      0000E9 4F               [ 1]  250 	clr	a
+      0000EA A2 00            [ 1]  251 	sbc	a, #0x00
+      0000EC 6B 01            [ 1]  252 	ld	(0x01, sp), a
+      0000EE AE 00 0B         [ 2]  253 	ldw	x, #0x000b
+      0000F1 72 F0 01         [ 2]  254 	subw	x, (0x01, sp)
+      0000F4 89               [ 2]  255 	pushw	x
+      0000F5 4B 2C            [ 1]  256 	push	#0x2c
+      0000F7 4B 01            [ 1]  257 	push	#0x01
+      0000F9 CDr00r00         [ 4]  258 	call	__mulint
+      0000FC 5B 04            [ 2]  259 	addw	sp, #4
+      0000FE 89               [ 2]  260 	pushw	x
+      0000FF CDr00r00         [ 4]  261 	call	_TIM1_SetCompare1
+      000102 85               [ 2]  262 	popw	x
+                                    263 ;	./src/fan.c: 84: write_fan_speed(speed);
+      000103 3Bu00u01         [ 1]  264 	push	_speed+0
+      000106 CDr00r00         [ 4]  265 	call	_write_fan_speed
+      000109 84               [ 1]  266 	pop	a
+      00010A                        267 00105$:
+                                    268 ;	./src/fan.c: 86: }
+      00010A 85               [ 2]  269 	popw	x
+      00010B 81               [ 4]  270 	ret
+                                    271 ;	./src/fan.c: 88: void fan_down()
+                                    272 ;	-----------------------------------------
+                                    273 ;	 function fan_down
+                                    274 ;	-----------------------------------------
+      00010C                        275 _fan_down:
+      00010C 89               [ 2]  276 	pushw	x
+                                    277 ;	./src/fan.c: 90: if(onoff_state != 1)
+      00010D C6u00u00         [ 1]  278 	ld	a, _onoff_state+0
+      000110 4A               [ 1]  279 	dec	a
+                                    280 ;	./src/fan.c: 92: return;
+      000111 26 32            [ 1]  281 	jrne	00105$
+                                    282 ;	./src/fan.c: 94: if(speed>1)
+      000113 C6u00u01         [ 1]  283 	ld	a, _speed+0
+      000116 A1 01            [ 1]  284 	cp	a, #0x01
+      000118 2D 2B            [ 1]  285 	jrsle	00105$
+                                    286 ;	./src/fan.c: 96: speed--;
+      00011A 72 5Au00u01      [ 1]  287 	dec	_speed+0
+                                    288 ;	./src/fan.c: 97: TIM1_SetCompare1(300*(11-speed));
+      00011E C6u00u01         [ 1]  289 	ld	a, _speed+0
+      000121 6B 02            [ 1]  290 	ld	(0x02, sp), a
+      000123 49               [ 1]  291 	rlc	a
+      000124 4F               [ 1]  292 	clr	a
+      000125 A2 00            [ 1]  293 	sbc	a, #0x00
+      000127 6B 01            [ 1]  294 	ld	(0x01, sp), a
+      000129 AE 00 0B         [ 2]  295 	ldw	x, #0x000b
+      00012C 72 F0 01         [ 2]  296 	subw	x, (0x01, sp)
+      00012F 89               [ 2]  297 	pushw	x
+      000130 4B 2C            [ 1]  298 	push	#0x2c
+      000132 4B 01            [ 1]  299 	push	#0x01
+      000134 CDr00r00         [ 4]  300 	call	__mulint
+      000137 5B 04            [ 2]  301 	addw	sp, #4
+      000139 89               [ 2]  302 	pushw	x
+      00013A CDr00r00         [ 4]  303 	call	_TIM1_SetCompare1
+      00013D 85               [ 2]  304 	popw	x
+                                    305 ;	./src/fan.c: 98: write_fan_speed(speed);
+      00013E 3Bu00u01         [ 1]  306 	push	_speed+0
+      000141 CDr00r00         [ 4]  307 	call	_write_fan_speed
+      000144 84               [ 1]  308 	pop	a
+      000145                        309 00105$:
+                                    310 ;	./src/fan.c: 100: }
+      000145 85               [ 2]  311 	popw	x
+      000146 81               [ 4]  312 	ret
+                                    313 ;	./src/fan.c: 105: void sd_on_cap()
+                                    314 ;	-----------------------------------------
+                                    315 ;	 function sd_on_cap
+                                    316 ;	-----------------------------------------
+      000147                        317 _sd_on_cap:
+                                    318 ;	./src/fan.c: 107: printf("cap\r\n");
+      000147 4Br00            [ 1]  319 	push	#<(___str_1+0)
+      000149 4Bs00            [ 1]  320 	push	#((___str_1+0) >> 8)
+      00014B CDr00r00         [ 4]  321 	call	_puts
+      00014E 85               [ 2]  322 	popw	x
+                                    323 ;	./src/fan.c: 108: speed_counter = TIM2_GetCapture1();
+      00014F CDr00r00         [ 4]  324 	call	_TIM2_GetCapture1
+      000152 CFu00u02         [ 2]  325 	ldw	_speed_counter+0, x
+                                    326 ;	./src/fan.c: 110: }
+      000155 81               [ 4]  327 	ret
+                                    328 ;	./src/fan.c: 115: void sd_on_ovf()
+                                    329 ;	-----------------------------------------
+                                    330 ;	 function sd_on_ovf
+                                    331 ;	-----------------------------------------
+      000156                        332 _sd_on_ovf:
+                                    333 ;	./src/fan.c: 118: if(onoff_state != 0)
+      000156 72 5Du00u00      [ 1]  334 	tnz	_onoff_state+0
+      00015A 26 01            [ 1]  335 	jrne	00110$
+      00015C 81               [ 4]  336 	ret
+      00015D                        337 00110$:
+                                    338 ;	./src/fan.c: 120: printf("fan error\r\n");
+      00015D 4Br05            [ 1]  339 	push	#<(___str_3+0)
+      00015F 4Bs00            [ 1]  340 	push	#((___str_3+0) >> 8)
+      000161 CDr00r00         [ 4]  341 	call	_puts
+      000164 85               [ 2]  342 	popw	x
+                                    343 ;	./src/fan.c: 124: }
+      000165 81               [ 4]  344 	ret
+                                    345 ;	./src/fan.c: 127: void ms2_update()
+                                    346 ;	-----------------------------------------
+                                    347 ;	 function ms2_update
+                                    348 ;	-----------------------------------------
+      000166                        349 _ms2_update:
+                                    350 ;	./src/fan.c: 129: nCounter++;
+      000166 CEu00u04         [ 2]  351 	ldw	x, _nCounter+0
+      000169 5C               [ 1]  352 	incw	x
+      00016A CFu00u04         [ 2]  353 	ldw	_nCounter+0, x
+                                    354 ;	./src/fan.c: 130: }
+      00016D 81               [ 4]  355 	ret
+                                    356 	.area CODE
+                                    357 	.area CONST
+                                    358 	.area CONST
+      000000                        359 ___str_1:
+      000000 63 61 70               360 	.ascii "cap"
+      000003 0D                     361 	.db 0x0d
+      000004 00                     362 	.db 0x00
+                                    363 	.area CODE
+                                    364 	.area CONST
+      000005                        365 ___str_3:
+      000005 66 61 6E 20 65 72 72   366 	.ascii "fan error"
+             6F 72
+      00000E 0D                     367 	.db 0x0d
+      00000F 00                     368 	.db 0x00
+                                    369 	.area CODE
+                                    370 	.area INITIALIZER
+      000000                        371 __xinit__onoff_state:
+      000000 00                     372 	.db #0x00	;  0
+      000001                        373 __xinit__speed:
+      000001 00                     374 	.db #0x00	;  0
+      000002                        375 __xinit__speed_counter:
+      000002 00 00                  376 	.dw #0x0000
+      000004                        377 __xinit__nCounter:
+      000004 00 00                  378 	.dw #0x0000
+                                    379 	.area CABS (ABS)

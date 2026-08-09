@@ -1,0 +1,336 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.0 #12072 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module stm8s_it
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _ms2_update
+                                     12 	.globl _sd_on_ovf
+                                     13 	.globl _sd_on_cap
+                                     14 	.globl _fan_sw
+                                     15 	.globl _cap_handler
+                                     16 	.globl _ov_handler
+                                     17 	.globl _TIM3_Config
+                                     18 	.globl _TIM4_ClearITPendingBit
+                                     19 	.globl _TIM3_ClearITPendingBit
+                                     20 	.globl _TIM3_ClearFlag
+                                     21 	.globl _TIM3_SetCounter
+                                     22 	.globl _TIM3_ICInit
+                                     23 	.globl _TIM2_ClearITPendingBit
+                                     24 	.globl _TIM2_ClearFlag
+                                     25 	.globl _TIM2_SetCounter
+                                     26 	.globl _GPIO_ReadInputData
+                                     27 	.globl _GPIO_WriteReverse
+                                     28 	.globl _TRAP_IRQHandler
+                                     29 	.globl _TLI_IRQHandler
+                                     30 	.globl _AWU_IRQHandler
+                                     31 	.globl _CLK_IRQHandler
+                                     32 	.globl _EXTI_PORTA_IRQHandler
+                                     33 	.globl _EXTI_PORTB_IRQHandler
+                                     34 	.globl _EXTI_PORTC_IRQHandler
+                                     35 	.globl _EXTI_PORTD_IRQHandler
+                                     36 	.globl _EXTI_PORTE_IRQHandler
+                                     37 	.globl _SPI_IRQHandler
+                                     38 	.globl _TIM1_UPD_OVF_TRG_BRK_IRQHandler
+                                     39 	.globl _TIM1_CAP_COM_IRQHandler
+                                     40 	.globl _TIM2_UPD_OVF_BRK_IRQHandler
+                                     41 	.globl _TIM2_CAP_COM_IRQHandler
+                                     42 	.globl _TIM3_UPD_OVF_BRK_IRQHandler
+                                     43 	.globl _TIM3_CAP_COM_IRQHandler
+                                     44 	.globl _I2C_IRQHandler
+                                     45 	.globl _UART2_TX_IRQHandler
+                                     46 	.globl _UART2_RX_IRQHandler
+                                     47 	.globl _ADC1_IRQHandler
+                                     48 	.globl _TIM4_UPD_OVF_IRQHandler
+                                     49 	.globl _EEPROM_EEC_IRQHandler
+                                     50 ;--------------------------------------------------------
+                                     51 ; ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area DATA
+                                     54 ;--------------------------------------------------------
+                                     55 ; ram data
+                                     56 ;--------------------------------------------------------
+                                     57 	.area INITIALIZED
+                                     58 ;--------------------------------------------------------
+                                     59 ; absolute external ram data
+                                     60 ;--------------------------------------------------------
+                                     61 	.area DABS (ABS)
+                                     62 
+                                     63 ; default segment ordering for linker
+                                     64 	.area HOME
+                                     65 	.area GSINIT
+                                     66 	.area GSFINAL
+                                     67 	.area CONST
+                                     68 	.area INITIALIZER
+                                     69 	.area CODE
+                                     70 
+                                     71 ;--------------------------------------------------------
+                                     72 ; global & static initialisations
+                                     73 ;--------------------------------------------------------
+                                     74 	.area HOME
+                                     75 	.area GSINIT
+                                     76 	.area GSFINAL
+                                     77 	.area GSINIT
+                                     78 ;--------------------------------------------------------
+                                     79 ; Home
+                                     80 ;--------------------------------------------------------
+                                     81 	.area HOME
+                                     82 	.area HOME
+                                     83 ;--------------------------------------------------------
+                                     84 ; code
+                                     85 ;--------------------------------------------------------
+                                     86 	.area CODE
+                                     87 ;	./src/stm8s_it.c: 66: INTERRUPT_HANDLER_TRAP(TRAP_IRQHandler)
+                                     88 ;	-----------------------------------------
+                                     89 ;	 function TRAP_IRQHandler
+                                     90 ;	-----------------------------------------
+      000000                         91 _TRAP_IRQHandler:
+                                     92 ;	./src/stm8s_it.c: 71: }
+      000000 80               [11]   93 	iret
+                                     94 ;	./src/stm8s_it.c: 77: INTERRUPT_HANDLER(TLI_IRQHandler, 0)
+                                     95 ;	-----------------------------------------
+                                     96 ;	 function TLI_IRQHandler
+                                     97 ;	-----------------------------------------
+      000001                         98 _TLI_IRQHandler:
+                                     99 ;	./src/stm8s_it.c: 81: }
+      000001 80               [11]  100 	iret
+                                    101 ;	./src/stm8s_it.c: 88: INTERRUPT_HANDLER(AWU_IRQHandler, 1)
+                                    102 ;	-----------------------------------------
+                                    103 ;	 function AWU_IRQHandler
+                                    104 ;	-----------------------------------------
+      000002                        105 _AWU_IRQHandler:
+                                    106 ;	./src/stm8s_it.c: 93: }
+      000002 80               [11]  107 	iret
+                                    108 ;	./src/stm8s_it.c: 100: INTERRUPT_HANDLER(CLK_IRQHandler, 2)
+                                    109 ;	-----------------------------------------
+                                    110 ;	 function CLK_IRQHandler
+                                    111 ;	-----------------------------------------
+      000003                        112 _CLK_IRQHandler:
+                                    113 ;	./src/stm8s_it.c: 105: }
+      000003 80               [11]  114 	iret
+                                    115 ;	./src/stm8s_it.c: 112: INTERRUPT_HANDLER(EXTI_PORTA_IRQHandler, 3)
+                                    116 ;	-----------------------------------------
+                                    117 ;	 function EXTI_PORTA_IRQHandler
+                                    118 ;	-----------------------------------------
+      000004                        119 _EXTI_PORTA_IRQHandler:
+                                    120 ;	./src/stm8s_it.c: 117: }
+      000004 80               [11]  121 	iret
+                                    122 ;	./src/stm8s_it.c: 124: INTERRUPT_HANDLER(EXTI_PORTB_IRQHandler, 4)
+                                    123 ;	-----------------------------------------
+                                    124 ;	 function EXTI_PORTB_IRQHandler
+                                    125 ;	-----------------------------------------
+      000005                        126 _EXTI_PORTB_IRQHandler:
+                                    127 ;	./src/stm8s_it.c: 127: }
+      000005 80               [11]  128 	iret
+                                    129 ;	./src/stm8s_it.c: 134: INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
+                                    130 ;	-----------------------------------------
+                                    131 ;	 function EXTI_PORTC_IRQHandler
+                                    132 ;	-----------------------------------------
+      000006                        133 _EXTI_PORTC_IRQHandler:
+      000006 62               [ 2]  134 	div	x, a
+                                    135 ;	./src/stm8s_it.c: 139: if ((GPIO_ReadInputData(KEY_PORT) & KEY_PIN) == 0x00)
+      000007 4B 0A            [ 1]  136 	push	#0x0a
+      000009 4B 50            [ 1]  137 	push	#0x50
+      00000B CDr00r00         [ 4]  138 	call	_GPIO_ReadInputData
+      00000E 85               [ 2]  139 	popw	x
+      00000F A5 08            [ 1]  140 	bcp	a, #0x08
+      000011 26 03            [ 1]  141 	jrne	00103$
+                                    142 ;	./src/stm8s_it.c: 141: fan_sw();
+      000013 CDr00r00         [ 4]  143 	call	_fan_sw
+      000016                        144 00103$:
+                                    145 ;	./src/stm8s_it.c: 143: }
+      000016 80               [11]  146 	iret
+                                    147 ;	./src/stm8s_it.c: 150: INTERRUPT_HANDLER(EXTI_PORTD_IRQHandler, 6)
+                                    148 ;	-----------------------------------------
+                                    149 ;	 function EXTI_PORTD_IRQHandler
+                                    150 ;	-----------------------------------------
+      000017                        151 _EXTI_PORTD_IRQHandler:
+      000017 62               [ 2]  152 	div	x, a
+                                    153 ;	./src/stm8s_it.c: 155: if ((GPIO_ReadInputData(IR_PORT) & IR_PIN) == 0x00)
+      000018 4B 0F            [ 1]  154 	push	#0x0f
+      00001A 4B 50            [ 1]  155 	push	#0x50
+      00001C CDr00r00         [ 4]  156 	call	_GPIO_ReadInputData
+      00001F 85               [ 2]  157 	popw	x
+      000020 A5 04            [ 1]  158 	bcp	a, #0x04
+      000022 26 0B            [ 1]  159 	jrne	00102$
+                                    160 ;	./src/stm8s_it.c: 157: GPIO_WriteReverse(LED_PORT, LED_PIN);
+      000024 4B 10            [ 1]  161 	push	#0x10
+      000026 4B 19            [ 1]  162 	push	#0x19
+      000028 4B 50            [ 1]  163 	push	#0x50
+      00002A CDr00r00         [ 4]  164 	call	_GPIO_WriteReverse
+      00002D 5B 03            [ 2]  165 	addw	sp, #3
+      00002F                        166 00102$:
+                                    167 ;	./src/stm8s_it.c: 159: TIM3_Config();
+      00002F CDr00r00         [ 4]  168 	call	_TIM3_Config
+                                    169 ;	./src/stm8s_it.c: 160: }
+      000032 80               [11]  170 	iret
+                                    171 ;	./src/stm8s_it.c: 167: INTERRUPT_HANDLER(EXTI_PORTE_IRQHandler, 7)
+                                    172 ;	-----------------------------------------
+                                    173 ;	 function EXTI_PORTE_IRQHandler
+                                    174 ;	-----------------------------------------
+      000033                        175 _EXTI_PORTE_IRQHandler:
+                                    176 ;	./src/stm8s_it.c: 172: }
+      000033 80               [11]  177 	iret
+                                    178 ;	./src/stm8s_it.c: 218: INTERRUPT_HANDLER(SPI_IRQHandler, 10)
+                                    179 ;	-----------------------------------------
+                                    180 ;	 function SPI_IRQHandler
+                                    181 ;	-----------------------------------------
+      000034                        182 _SPI_IRQHandler:
+                                    183 ;	./src/stm8s_it.c: 223: }
+      000034 80               [11]  184 	iret
+                                    185 ;	./src/stm8s_it.c: 230: INTERRUPT_HANDLER(TIM1_UPD_OVF_TRG_BRK_IRQHandler, 11)
+                                    186 ;	-----------------------------------------
+                                    187 ;	 function TIM1_UPD_OVF_TRG_BRK_IRQHandler
+                                    188 ;	-----------------------------------------
+      000035                        189 _TIM1_UPD_OVF_TRG_BRK_IRQHandler:
+                                    190 ;	./src/stm8s_it.c: 235: }
+      000035 80               [11]  191 	iret
+                                    192 ;	./src/stm8s_it.c: 242: INTERRUPT_HANDLER(TIM1_CAP_COM_IRQHandler, 12)
+                                    193 ;	-----------------------------------------
+                                    194 ;	 function TIM1_CAP_COM_IRQHandler
+                                    195 ;	-----------------------------------------
+      000036                        196 _TIM1_CAP_COM_IRQHandler:
+                                    197 ;	./src/stm8s_it.c: 247: }
+      000036 80               [11]  198 	iret
+                                    199 ;	./src/stm8s_it.c: 279: INTERRUPT_HANDLER(TIM2_UPD_OVF_BRK_IRQHandler, 13)
+                                    200 ;	-----------------------------------------
+                                    201 ;	 function TIM2_UPD_OVF_BRK_IRQHandler
+                                    202 ;	-----------------------------------------
+      000037                        203 _TIM2_UPD_OVF_BRK_IRQHandler:
+      000037 62               [ 2]  204 	div	x, a
+                                    205 ;	./src/stm8s_it.c: 285: sd_on_ovf();
+      000038 CDr00r00         [ 4]  206 	call	_sd_on_ovf
+                                    207 ;	./src/stm8s_it.c: 286: TIM2_ClearITPendingBit(TIM2_IT_UPDATE);
+      00003B 4B 01            [ 1]  208 	push	#0x01
+      00003D CDr00r00         [ 4]  209 	call	_TIM2_ClearITPendingBit
+      000040 84               [ 1]  210 	pop	a
+                                    211 ;	./src/stm8s_it.c: 287: }
+      000041 80               [11]  212 	iret
+                                    213 ;	./src/stm8s_it.c: 294: INTERRUPT_HANDLER(TIM2_CAP_COM_IRQHandler, 14)
+                                    214 ;	-----------------------------------------
+                                    215 ;	 function TIM2_CAP_COM_IRQHandler
+                                    216 ;	-----------------------------------------
+      000042                        217 _TIM2_CAP_COM_IRQHandler:
+      000042 62               [ 2]  218 	div	x, a
+                                    219 ;	./src/stm8s_it.c: 299: sd_on_cap();
+      000043 CDr00r00         [ 4]  220 	call	_sd_on_cap
+                                    221 ;	./src/stm8s_it.c: 300: TIM2_ClearFlag(TIM2_FLAG_CC1);
+      000046 4B 02            [ 1]  222 	push	#0x02
+      000048 4B 00            [ 1]  223 	push	#0x00
+      00004A CDr00r00         [ 4]  224 	call	_TIM2_ClearFlag
+      00004D 85               [ 2]  225 	popw	x
+                                    226 ;	./src/stm8s_it.c: 301: TIM2_SetCounter(0);
+      00004E 5F               [ 1]  227 	clrw	x
+      00004F 89               [ 2]  228 	pushw	x
+      000050 CDr00r00         [ 4]  229 	call	_TIM2_SetCounter
+      000053 85               [ 2]  230 	popw	x
+                                    231 ;	./src/stm8s_it.c: 302: TIM2_ClearITPendingBit(TIM2_IT_CC1);
+      000054 4B 02            [ 1]  232 	push	#0x02
+      000056 CDr00r00         [ 4]  233 	call	_TIM2_ClearITPendingBit
+      000059 84               [ 1]  234 	pop	a
+                                    235 ;	./src/stm8s_it.c: 303: }
+      00005A 80               [11]  236 	iret
+                                    237 ;	./src/stm8s_it.c: 313: INTERRUPT_HANDLER(TIM3_UPD_OVF_BRK_IRQHandler, 15)
+                                    238 ;	-----------------------------------------
+                                    239 ;	 function TIM3_UPD_OVF_BRK_IRQHandler
+                                    240 ;	-----------------------------------------
+      00005B                        241 _TIM3_UPD_OVF_BRK_IRQHandler:
+      00005B 62               [ 2]  242 	div	x, a
+                                    243 ;	./src/stm8s_it.c: 319: ov_handler();
+      00005C CDr00r00         [ 4]  244 	call	_ov_handler
+                                    245 ;	./src/stm8s_it.c: 320: TIM3_ClearITPendingBit(TIM3_IT_UPDATE);
+      00005F 4B 01            [ 1]  246 	push	#0x01
+      000061 CDr00r00         [ 4]  247 	call	_TIM3_ClearITPendingBit
+      000064 84               [ 1]  248 	pop	a
+                                    249 ;	./src/stm8s_it.c: 321: TIM3_ICInit( TIM3_CHANNEL_1, TIM3_ICPOLARITY_FALLING, TIM3_ICSELECTION_DIRECTTI,
+      000065 4B 00            [ 1]  250 	push	#0x00
+      000067 4B 00            [ 1]  251 	push	#0x00
+      000069 4B 01            [ 1]  252 	push	#0x01
+      00006B 4B 44            [ 1]  253 	push	#0x44
+      00006D 4B 00            [ 1]  254 	push	#0x00
+      00006F CDr00r00         [ 4]  255 	call	_TIM3_ICInit
+      000072 5B 05            [ 2]  256 	addw	sp, #5
+                                    257 ;	./src/stm8s_it.c: 323: }
+      000074 80               [11]  258 	iret
+                                    259 ;	./src/stm8s_it.c: 330: INTERRUPT_HANDLER(TIM3_CAP_COM_IRQHandler, 16)
+                                    260 ;	-----------------------------------------
+                                    261 ;	 function TIM3_CAP_COM_IRQHandler
+                                    262 ;	-----------------------------------------
+      000075                        263 _TIM3_CAP_COM_IRQHandler:
+      000075 62               [ 2]  264 	div	x, a
+                                    265 ;	./src/stm8s_it.c: 335: cap_handler();
+      000076 CDr00r00         [ 4]  266 	call	_cap_handler
+                                    267 ;	./src/stm8s_it.c: 338: TIM3_ClearFlag(TIM3_FLAG_CC1);
+      000079 4B 02            [ 1]  268 	push	#0x02
+      00007B 4B 00            [ 1]  269 	push	#0x00
+      00007D CDr00r00         [ 4]  270 	call	_TIM3_ClearFlag
+      000080 85               [ 2]  271 	popw	x
+                                    272 ;	./src/stm8s_it.c: 339: TIM3_SetCounter(0);
+      000081 5F               [ 1]  273 	clrw	x
+      000082 89               [ 2]  274 	pushw	x
+      000083 CDr00r00         [ 4]  275 	call	_TIM3_SetCounter
+      000086 85               [ 2]  276 	popw	x
+                                    277 ;	./src/stm8s_it.c: 340: TIM3_ClearITPendingBit(TIM3_IT_CC1);
+      000087 4B 02            [ 1]  278 	push	#0x02
+      000089 CDr00r00         [ 4]  279 	call	_TIM3_ClearITPendingBit
+      00008C 84               [ 1]  280 	pop	a
+                                    281 ;	./src/stm8s_it.c: 341: }
+      00008D 80               [11]  282 	iret
+                                    283 ;	./src/stm8s_it.c: 376: INTERRUPT_HANDLER(I2C_IRQHandler, 19)
+                                    284 ;	-----------------------------------------
+                                    285 ;	 function I2C_IRQHandler
+                                    286 ;	-----------------------------------------
+      00008E                        287 _I2C_IRQHandler:
+                                    288 ;	./src/stm8s_it.c: 381: }
+      00008E 80               [11]  289 	iret
+                                    290 ;	./src/stm8s_it.c: 389: INTERRUPT_HANDLER(UART2_TX_IRQHandler, 20)
+                                    291 ;	-----------------------------------------
+                                    292 ;	 function UART2_TX_IRQHandler
+                                    293 ;	-----------------------------------------
+      00008F                        294 _UART2_TX_IRQHandler:
+                                    295 ;	./src/stm8s_it.c: 394: }
+      00008F 80               [11]  296 	iret
+                                    297 ;	./src/stm8s_it.c: 401: INTERRUPT_HANDLER(UART2_RX_IRQHandler, 21)
+                                    298 ;	-----------------------------------------
+                                    299 ;	 function UART2_RX_IRQHandler
+                                    300 ;	-----------------------------------------
+      000090                        301 _UART2_RX_IRQHandler:
+                                    302 ;	./src/stm8s_it.c: 406: }
+      000090 80               [11]  303 	iret
+                                    304 ;	./src/stm8s_it.c: 456: INTERRUPT_HANDLER(ADC1_IRQHandler, 22)
+                                    305 ;	-----------------------------------------
+                                    306 ;	 function ADC1_IRQHandler
+                                    307 ;	-----------------------------------------
+      000091                        308 _ADC1_IRQHandler:
+                                    309 ;	./src/stm8s_it.c: 462: return;
+                                    310 ;	./src/stm8s_it.c: 464: }
+      000091 80               [11]  311 	iret
+                                    312 ;	./src/stm8s_it.c: 485: INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
+                                    313 ;	-----------------------------------------
+                                    314 ;	 function TIM4_UPD_OVF_IRQHandler
+                                    315 ;	-----------------------------------------
+      000092                        316 _TIM4_UPD_OVF_IRQHandler:
+      000092 62               [ 2]  317 	div	x, a
+                                    318 ;	./src/stm8s_it.c: 488: ms2_update();
+      000093 CDr00r00         [ 4]  319 	call	_ms2_update
+                                    320 ;	./src/stm8s_it.c: 489: TIM4_ClearITPendingBit(TIM4_IT_UPDATE);
+      000096 4B 01            [ 1]  321 	push	#0x01
+      000098 CDr00r00         [ 4]  322 	call	_TIM4_ClearITPendingBit
+      00009B 84               [ 1]  323 	pop	a
+                                    324 ;	./src/stm8s_it.c: 494: }
+      00009C 80               [11]  325 	iret
+                                    326 ;	./src/stm8s_it.c: 502: INTERRUPT_HANDLER(EEPROM_EEC_IRQHandler, 24)
+                                    327 ;	-----------------------------------------
+                                    328 ;	 function EEPROM_EEC_IRQHandler
+                                    329 ;	-----------------------------------------
+      00009D                        330 _EEPROM_EEC_IRQHandler:
+                                    331 ;	./src/stm8s_it.c: 507: }
+      00009D 80               [11]  332 	iret
+                                    333 	.area CODE
+                                    334 	.area CONST
+                                    335 	.area INITIALIZER
+                                    336 	.area CABS (ABS)

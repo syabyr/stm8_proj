@@ -1,0 +1,516 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.0 #12072 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _printf
+                                     13 	.globl _UART2_GetFlagStatus
+                                     14 	.globl _UART2_SendData8
+                                     15 	.globl _UART2_ReceiveData8
+                                     16 	.globl _UART2_Init
+                                     17 	.globl _UART2_DeInit
+                                     18 	.globl _TIM4_ClearFlag
+                                     19 	.globl _TIM4_ITConfig
+                                     20 	.globl _TIM4_Cmd
+                                     21 	.globl _TIM4_TimeBaseInit
+                                     22 	.globl _TIM3_ClearFlag
+                                     23 	.globl _TIM3_ITConfig
+                                     24 	.globl _TIM3_Cmd
+                                     25 	.globl _TIM3_ICInit
+                                     26 	.globl _TIM3_TimeBaseInit
+                                     27 	.globl _TIM2_ClearFlag
+                                     28 	.globl _TIM2_ITConfig
+                                     29 	.globl _TIM2_Cmd
+                                     30 	.globl _TIM2_ICInit
+                                     31 	.globl _TIM2_TimeBaseInit
+                                     32 	.globl _TIM1_CtrlPWMOutputs
+                                     33 	.globl _TIM1_Cmd
+                                     34 	.globl _TIM1_OC1Init
+                                     35 	.globl _TIM1_TimeBaseInit
+                                     36 	.globl _TIM1_DeInit
+                                     37 	.globl _IWDG_Enable
+                                     38 	.globl _IWDG_ReloadCounter
+                                     39 	.globl _IWDG_SetReload
+                                     40 	.globl _IWDG_SetPrescaler
+                                     41 	.globl _IWDG_WriteAccessCmd
+                                     42 	.globl _GPIO_ReadInputData
+                                     43 	.globl _GPIO_WriteReverse
+                                     44 	.globl _GPIO_WriteLow
+                                     45 	.globl _GPIO_WriteHigh
+                                     46 	.globl _GPIO_Init
+                                     47 	.globl _EXTI_SetTLISensitivity
+                                     48 	.globl _EXTI_SetExtIntSensitivity
+                                     49 	.globl _CLK_HSIPrescalerConfig
+                                     50 	.globl _UART2_Config
+                                     51 	.globl _TIM1_Config
+                                     52 	.globl _TIM2_Config
+                                     53 	.globl _TIM3_Config
+                                     54 	.globl _TIM4_Config
+                                     55 	.globl _IWDG_Config
+                                     56 	.globl _putchar
+                                     57 	.globl _getchar
+                                     58 ;--------------------------------------------------------
+                                     59 ; ram data
+                                     60 ;--------------------------------------------------------
+                                     61 	.area DATA
+                                     62 ;--------------------------------------------------------
+                                     63 ; ram data
+                                     64 ;--------------------------------------------------------
+                                     65 	.area INITIALIZED
+                                     66 ;--------------------------------------------------------
+                                     67 ; Stack segment in internal ram 
+                                     68 ;--------------------------------------------------------
+                                     69 	.area	SSEG
+      000000                         70 __start__stack:
+      000000                         71 	.ds	1
+                                     72 
+                                     73 ;--------------------------------------------------------
+                                     74 ; absolute external ram data
+                                     75 ;--------------------------------------------------------
+                                     76 	.area DABS (ABS)
+                                     77 
+                                     78 ; default segment ordering for linker
+                                     79 	.area HOME
+                                     80 	.area GSINIT
+                                     81 	.area GSFINAL
+                                     82 	.area CONST
+                                     83 	.area INITIALIZER
+                                     84 	.area CODE
+                                     85 
+                                     86 ;--------------------------------------------------------
+                                     87 ; interrupt vector 
+                                     88 ;--------------------------------------------------------
+                                     89 	.area HOME
+      000000                         90 __interrupt_vect:
+      000000 82v00u00u00             91 	int s_GSINIT ; reset
+      000004 82v00u00u00             92 	int _TRAP_IRQHandler ; trap
+      000008 82v00u00u00             93 	int _TLI_IRQHandler ; int0
+      00000C 82v00u00u00             94 	int _AWU_IRQHandler ; int1
+      000010 82v00u00u00             95 	int _CLK_IRQHandler ; int2
+      000014 82v00u00u00             96 	int _EXTI_PORTA_IRQHandler ; int3
+      000018 82v00u00u00             97 	int _EXTI_PORTB_IRQHandler ; int4
+      00001C 82v00u00u00             98 	int _EXTI_PORTC_IRQHandler ; int5
+      000020 82v00u00u00             99 	int _EXTI_PORTD_IRQHandler ; int6
+      000024 82v00u00u00            100 	int _EXTI_PORTE_IRQHandler ; int7
+      000028 82 00 00 00            101 	int 0x000000 ; int8
+      00002C 82 00 00 00            102 	int 0x000000 ; int9
+      000030 82v00u00u00            103 	int _SPI_IRQHandler ; int10
+      000034 82v00u00u00            104 	int _TIM1_UPD_OVF_TRG_BRK_IRQHandler ; int11
+      000038 82v00u00u00            105 	int _TIM1_CAP_COM_IRQHandler ; int12
+      00003C 82v00u00u00            106 	int _TIM2_UPD_OVF_BRK_IRQHandler ; int13
+      000040 82v00u00u00            107 	int _TIM2_CAP_COM_IRQHandler ; int14
+      000044 82v00u00u00            108 	int _TIM3_UPD_OVF_BRK_IRQHandler ; int15
+      000048 82v00u00u00            109 	int _TIM3_CAP_COM_IRQHandler ; int16
+      00004C 82 00 00 00            110 	int 0x000000 ; int17
+      000050 82 00 00 00            111 	int 0x000000 ; int18
+      000054 82v00u00u00            112 	int _I2C_IRQHandler ; int19
+      000058 82v00u00u00            113 	int _UART2_TX_IRQHandler ; int20
+      00005C 82v00u00u00            114 	int _UART2_RX_IRQHandler ; int21
+      000060 82v00u00u00            115 	int _ADC1_IRQHandler ; int22
+      000064 82v00u00u00            116 	int _TIM4_UPD_OVF_IRQHandler ; int23
+      000068 82v00u00u00            117 	int _EEPROM_EEC_IRQHandler ; int24
+                                    118 ;--------------------------------------------------------
+                                    119 ; global & static initialisations
+                                    120 ;--------------------------------------------------------
+                                    121 	.area HOME
+                                    122 	.area GSINIT
+                                    123 	.area GSFINAL
+                                    124 	.area GSINIT
+      000000                        125 __sdcc_init_data:
+                                    126 ; stm8_genXINIT() start
+      000000 AEr00r00         [ 2]  127 	ldw x, #l_DATA
+      000003 27 07            [ 1]  128 	jreq	00002$
+      000005                        129 00001$:
+      000005 72 4FuFFuFF      [ 1]  130 	clr (s_DATA - 1, x)
+      000009 5A               [ 2]  131 	decw x
+      00000A 26 F9            [ 1]  132 	jrne	00001$
+      00000C                        133 00002$:
+      00000C AEr00r00         [ 2]  134 	ldw	x, #l_INITIALIZER
+      00000F 27 09            [ 1]  135 	jreq	00004$
+      000011                        136 00003$:
+      000011 D6uFFuFF         [ 1]  137 	ld	a, (s_INITIALIZER - 1, x)
+      000014 D7uFFuFF         [ 1]  138 	ld	(s_INITIALIZED - 1, x), a
+      000017 5A               [ 2]  139 	decw	x
+      000018 26 F7            [ 1]  140 	jrne	00003$
+      00001A                        141 00004$:
+                                    142 ; stm8_genXINIT() end
+                                    143 	.area GSFINAL
+      000000 CCr00r6C         [ 2]  144 	jp	__sdcc_program_startup
+                                    145 ;--------------------------------------------------------
+                                    146 ; Home
+                                    147 ;--------------------------------------------------------
+                                    148 	.area HOME
+                                    149 	.area HOME
+      00006C                        150 __sdcc_program_startup:
+      00006C CCr00r00         [ 2]  151 	jp	_main
+                                    152 ;	return from main will return to caller
+                                    153 ;--------------------------------------------------------
+                                    154 ; code
+                                    155 ;--------------------------------------------------------
+                                    156 	.area CODE
+                                    157 ;	./src/main.c: 69: void main(void)
+                                    158 ;	-----------------------------------------
+                                    159 ;	 function main
+                                    160 ;	-----------------------------------------
+      000000                        161 _main:
+                                    162 ;	./src/main.c: 73: CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
+      000000 4B 00            [ 1]  163 	push	#0x00
+      000002 CDr00r00         [ 4]  164 	call	_CLK_HSIPrescalerConfig
+      000005 84               [ 1]  165 	pop	a
+                                    166 ;	./src/main.c: 75: GPIO_Config();  
+      000006 CDr00r64         [ 4]  167 	call	_GPIO_Config
+                                    168 ;	./src/main.c: 79: EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_RISE_FALL);
+      000009 4B 03            [ 1]  169 	push	#0x03
+      00000B 4B 02            [ 1]  170 	push	#0x02
+      00000D CDr00r00         [ 4]  171 	call	_EXTI_SetExtIntSensitivity
+      000010 85               [ 2]  172 	popw	x
+                                    173 ;	./src/main.c: 81: EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOD, EXTI_SENSITIVITY_FALL_ONLY);
+      000011 4B 02            [ 1]  174 	push	#0x02
+      000013 4B 03            [ 1]  175 	push	#0x03
+      000015 CDr00r00         [ 4]  176 	call	_EXTI_SetExtIntSensitivity
+      000018 85               [ 2]  177 	popw	x
+                                    178 ;	./src/main.c: 82: EXTI_SetTLISensitivity(EXTI_TLISENSITIVITY_FALL_ONLY);
+      000019 4B 00            [ 1]  179 	push	#0x00
+      00001B CDr00r00         [ 4]  180 	call	_EXTI_SetTLISensitivity
+      00001E 84               [ 1]  181 	pop	a
+                                    182 ;	./src/main.c: 86: GPIO_WriteReverse(LED_PORT, LED_PIN);
+      00001F 4B 10            [ 1]  183 	push	#0x10
+      000021 4B 19            [ 1]  184 	push	#0x19
+      000023 4B 50            [ 1]  185 	push	#0x50
+      000025 CDr00r00         [ 4]  186 	call	_GPIO_WriteReverse
+      000028 5B 03            [ 2]  187 	addw	sp, #3
+                                    188 ;	./src/main.c: 88: UART2_Config();
+      00002A CDr00rA6         [ 4]  189 	call	_UART2_Config
+                                    190 ;	./src/main.c: 89: TIM1_Config();
+      00002D CDr00rC9         [ 4]  191 	call	_TIM1_Config
+                                    192 ;	./src/main.c: 90: TIM2_Config();
+      000030 CDr00rFF         [ 4]  193 	call	_TIM2_Config
+                                    194 ;	./src/main.c: 91: TIM3_Config();
+      000033 CDr01r38         [ 4]  195 	call	_TIM3_Config
+                                    196 ;	./src/main.c: 92: TIM4_Config();
+      000036 CDr01r71         [ 4]  197 	call	_TIM4_Config
+                                    198 ;	./src/main.c: 94: fan_init();
+      000039 CDr00r00         [ 4]  199 	call	_fan_init
+                                    200 ;	./src/main.c: 96: enableInterrupts();
+      00003C 9A               [ 1]  201 	rim
+                                    202 ;	./src/main.c: 100: while (1)
+      00003D                        203 00105$:
+                                    204 ;	./src/main.c: 102: if ((GPIO_ReadInputData(FAN_SENSE_PORT) & FAN_SENSE_PIN) == 0x00)
+      00003D 4B 0F            [ 1]  205 	push	#0x0f
+      00003F 4B 50            [ 1]  206 	push	#0x50
+      000041 CDr00r00         [ 4]  207 	call	_GPIO_ReadInputData
+      000044 85               [ 2]  208 	popw	x
+      000045 A5 10            [ 1]  209 	bcp	a, #0x10
+      000047 26 0D            [ 1]  210 	jrne	00102$
+                                    211 ;	./src/main.c: 104: GPIO_WriteLow(LED_PORT,LED_PIN);
+      000049 4B 10            [ 1]  212 	push	#0x10
+      00004B 4B 19            [ 1]  213 	push	#0x19
+      00004D 4B 50            [ 1]  214 	push	#0x50
+      00004F CDr00r00         [ 4]  215 	call	_GPIO_WriteLow
+      000052 5B 03            [ 2]  216 	addw	sp, #3
+      000054 20 E7            [ 2]  217 	jra	00105$
+      000056                        218 00102$:
+                                    219 ;	./src/main.c: 108: GPIO_WriteHigh(LED_PORT,LED_PIN);
+      000056 4B 10            [ 1]  220 	push	#0x10
+      000058 4B 19            [ 1]  221 	push	#0x19
+      00005A 4B 50            [ 1]  222 	push	#0x50
+      00005C CDr00r00         [ 4]  223 	call	_GPIO_WriteHigh
+      00005F 5B 03            [ 2]  224 	addw	sp, #3
+      000061 20 DA            [ 2]  225 	jra	00105$
+                                    226 ;	./src/main.c: 119: }
+      000063 81               [ 4]  227 	ret
+                                    228 ;	./src/main.c: 122: static void GPIO_Config(void)
+                                    229 ;	-----------------------------------------
+                                    230 ;	 function GPIO_Config
+                                    231 ;	-----------------------------------------
+      000064                        232 _GPIO_Config:
+                                    233 ;	./src/main.c: 125: GPIO_Init(LED_PORT, (GPIO_Pin_TypeDef)(LED_PIN),GPIO_MODE_OUT_PP_HIGH_FAST);
+      000064 4B F0            [ 1]  234 	push	#0xf0
+      000066 4B 10            [ 1]  235 	push	#0x10
+      000068 4B 19            [ 1]  236 	push	#0x19
+      00006A 4B 50            [ 1]  237 	push	#0x50
+      00006C CDr00r00         [ 4]  238 	call	_GPIO_Init
+      00006F 5B 04            [ 2]  239 	addw	sp, #4
+                                    240 ;	./src/main.c: 128: GPIO_Init(KEY_PORT, (GPIO_Pin_TypeDef)(KEY_PIN),GPIO_MODE_IN_FL_IT);
+      000071 4B 20            [ 1]  241 	push	#0x20
+      000073 4B 08            [ 1]  242 	push	#0x08
+      000075 4B 0A            [ 1]  243 	push	#0x0a
+      000077 4B 50            [ 1]  244 	push	#0x50
+      000079 CDr00r00         [ 4]  245 	call	_GPIO_Init
+      00007C 5B 04            [ 2]  246 	addw	sp, #4
+                                    247 ;	./src/main.c: 131: GPIO_Init(IR_PORT, (GPIO_Pin_TypeDef)(IR_PIN),GPIO_MODE_IN_FL_NO_IT);
+      00007E 4B 00            [ 1]  248 	push	#0x00
+      000080 4B 04            [ 1]  249 	push	#0x04
+      000082 4B 0F            [ 1]  250 	push	#0x0f
+      000084 4B 50            [ 1]  251 	push	#0x50
+      000086 CDr00r00         [ 4]  252 	call	_GPIO_Init
+      000089 5B 04            [ 2]  253 	addw	sp, #4
+                                    254 ;	./src/main.c: 134: GPIO_Init(FAN_SENSE_PORT,(GPIO_Pin_TypeDef)(FAN_SENSE_PIN),GPIO_MODE_IN_FL_NO_IT);
+      00008B 4B 00            [ 1]  255 	push	#0x00
+      00008D 4B 10            [ 1]  256 	push	#0x10
+      00008F 4B 0F            [ 1]  257 	push	#0x0f
+      000091 4B 50            [ 1]  258 	push	#0x50
+      000093 CDr00r00         [ 4]  259 	call	_GPIO_Init
+      000096 5B 04            [ 2]  260 	addw	sp, #4
+                                    261 ;	./src/main.c: 137: GPIO_Init(FAN_PORT, (GPIO_Pin_TypeDef)(FAN_SW_PIN),GPIO_MODE_OUT_PP_HIGH_FAST);
+      000098 4B F0            [ 1]  262 	push	#0xf0
+      00009A 4B 04            [ 1]  263 	push	#0x04
+      00009C 4B 0A            [ 1]  264 	push	#0x0a
+      00009E 4B 50            [ 1]  265 	push	#0x50
+      0000A0 CDr00r00         [ 4]  266 	call	_GPIO_Init
+      0000A3 5B 04            [ 2]  267 	addw	sp, #4
+                                    268 ;	./src/main.c: 139: }
+      0000A5 81               [ 4]  269 	ret
+                                    270 ;	./src/main.c: 142: void UART2_Config(void)
+                                    271 ;	-----------------------------------------
+                                    272 ;	 function UART2_Config
+                                    273 ;	-----------------------------------------
+      0000A6                        274 _UART2_Config:
+                                    275 ;	./src/main.c: 144: UART2_DeInit();
+      0000A6 CDr00r00         [ 4]  276 	call	_UART2_DeInit
+                                    277 ;	./src/main.c: 154: UART2_Init((uint32_t)115200, UART2_WORDLENGTH_8D, UART2_STOPBITS_1, UART2_PARITY_NO,
+      0000A9 4B 0C            [ 1]  278 	push	#0x0c
+      0000AB 4B 80            [ 1]  279 	push	#0x80
+      0000AD 4B 00            [ 1]  280 	push	#0x00
+      0000AF 4B 00            [ 1]  281 	push	#0x00
+      0000B1 4B 00            [ 1]  282 	push	#0x00
+      0000B3 4B 00            [ 1]  283 	push	#0x00
+      0000B5 4B C2            [ 1]  284 	push	#0xc2
+      0000B7 4B 01            [ 1]  285 	push	#0x01
+      0000B9 4B 00            [ 1]  286 	push	#0x00
+      0000BB CDr00r00         [ 4]  287 	call	_UART2_Init
+      0000BE 5B 09            [ 2]  288 	addw	sp, #9
+                                    289 ;	./src/main.c: 158: printf("\n\rfan start\n\r");
+      0000C0 4Br00            [ 1]  290 	push	#<(___str_0+0)
+      0000C2 4Bs00            [ 1]  291 	push	#((___str_0+0) >> 8)
+      0000C4 CDr00r00         [ 4]  292 	call	_printf
+      0000C7 85               [ 2]  293 	popw	x
+                                    294 ;	./src/main.c: 159: }
+      0000C8 81               [ 4]  295 	ret
+                                    296 ;	./src/main.c: 163: void TIM1_Config(void)
+                                    297 ;	-----------------------------------------
+                                    298 ;	 function TIM1_Config
+                                    299 ;	-----------------------------------------
+      0000C9                        300 _TIM1_Config:
+                                    301 ;	./src/main.c: 165: TIM1_DeInit();
+      0000C9 CDr00r00         [ 4]  302 	call	_TIM1_DeInit
+                                    303 ;	./src/main.c: 167: TIM1_TimeBaseInit(0, TIM1_COUNTERMODE_UP, 3200, 0);
+      0000CC 4B 00            [ 1]  304 	push	#0x00
+      0000CE 4B 80            [ 1]  305 	push	#0x80
+      0000D0 4B 0C            [ 1]  306 	push	#0x0c
+      0000D2 4B 00            [ 1]  307 	push	#0x00
+      0000D4 5F               [ 1]  308 	clrw	x
+      0000D5 89               [ 2]  309 	pushw	x
+      0000D6 CDr00r00         [ 4]  310 	call	_TIM1_TimeBaseInit
+      0000D9 5B 06            [ 2]  311 	addw	sp, #6
+                                    312 ;	./src/main.c: 169: TIM1_OC1Init(TIM1_OCMODE_PWM2, TIM1_OUTPUTSTATE_ENABLE, TIM1_OUTPUTNSTATE_ENABLE,
+      0000DB 4B 00            [ 1]  313 	push	#0x00
+      0000DD 4B 55            [ 1]  314 	push	#0x55
+      0000DF 4B 00            [ 1]  315 	push	#0x00
+      0000E1 4B 22            [ 1]  316 	push	#0x22
+      0000E3 4B 1C            [ 1]  317 	push	#0x1c
+      0000E5 4B 0C            [ 1]  318 	push	#0x0c
+      0000E7 4B 44            [ 1]  319 	push	#0x44
+      0000E9 4B 11            [ 1]  320 	push	#0x11
+      0000EB 4B 70            [ 1]  321 	push	#0x70
+      0000ED CDr00r00         [ 4]  322 	call	_TIM1_OC1Init
+      0000F0 5B 09            [ 2]  323 	addw	sp, #9
+                                    324 ;	./src/main.c: 172: TIM1_Cmd(ENABLE);
+      0000F2 4B 01            [ 1]  325 	push	#0x01
+      0000F4 CDr00r00         [ 4]  326 	call	_TIM1_Cmd
+      0000F7 84               [ 1]  327 	pop	a
+                                    328 ;	./src/main.c: 173: TIM1_CtrlPWMOutputs(ENABLE);
+      0000F8 4B 01            [ 1]  329 	push	#0x01
+      0000FA CDr00r00         [ 4]  330 	call	_TIM1_CtrlPWMOutputs
+      0000FD 84               [ 1]  331 	pop	a
+                                    332 ;	./src/main.c: 174: }
+      0000FE 81               [ 4]  333 	ret
+                                    334 ;	./src/main.c: 177: void TIM2_Config(void)
+                                    335 ;	-----------------------------------------
+                                    336 ;	 function TIM2_Config
+                                    337 ;	-----------------------------------------
+      0000FF                        338 _TIM2_Config:
+                                    339 ;	./src/main.c: 180: TIM2_TimeBaseInit(TIM2_PRESCALER_16,60000-1);
+      0000FF 4B 5F            [ 1]  340 	push	#0x5f
+      000101 4B EA            [ 1]  341 	push	#0xea
+      000103 4B 04            [ 1]  342 	push	#0x04
+      000105 CDr00r00         [ 4]  343 	call	_TIM2_TimeBaseInit
+      000108 5B 03            [ 2]  344 	addw	sp, #3
+                                    345 ;	./src/main.c: 181: TIM2_ICInit( TIM2_CHANNEL_1, TIM2_ICPOLARITY_FALLING, TIM2_ICSELECTION_DIRECTTI,
+      00010A 4B 00            [ 1]  346 	push	#0x00
+      00010C 4B 00            [ 1]  347 	push	#0x00
+      00010E 4B 01            [ 1]  348 	push	#0x01
+      000110 4B 44            [ 1]  349 	push	#0x44
+      000112 4B 00            [ 1]  350 	push	#0x00
+      000114 CDr00r00         [ 4]  351 	call	_TIM2_ICInit
+      000117 5B 05            [ 2]  352 	addw	sp, #5
+                                    353 ;	./src/main.c: 183: TIM2_ClearFlag(TIM2_FLAG_CC1);
+      000119 4B 02            [ 1]  354 	push	#0x02
+      00011B 4B 00            [ 1]  355 	push	#0x00
+      00011D CDr00r00         [ 4]  356 	call	_TIM2_ClearFlag
+      000120 85               [ 2]  357 	popw	x
+                                    358 ;	./src/main.c: 184: TIM2_ITConfig(TIM2_IT_UPDATE,ENABLE);
+      000121 4B 01            [ 1]  359 	push	#0x01
+      000123 4B 01            [ 1]  360 	push	#0x01
+      000125 CDr00r00         [ 4]  361 	call	_TIM2_ITConfig
+      000128 85               [ 2]  362 	popw	x
+                                    363 ;	./src/main.c: 185: TIM2_ITConfig(TIM2_IT_CC1,ENABLE);
+      000129 4B 01            [ 1]  364 	push	#0x01
+      00012B 4B 02            [ 1]  365 	push	#0x02
+      00012D CDr00r00         [ 4]  366 	call	_TIM2_ITConfig
+      000130 85               [ 2]  367 	popw	x
+                                    368 ;	./src/main.c: 186: TIM2_Cmd(ENABLE);
+      000131 4B 01            [ 1]  369 	push	#0x01
+      000133 CDr00r00         [ 4]  370 	call	_TIM2_Cmd
+      000136 84               [ 1]  371 	pop	a
+                                    372 ;	./src/main.c: 188: }
+      000137 81               [ 4]  373 	ret
+                                    374 ;	./src/main.c: 191: void TIM3_Config(void)
+                                    375 ;	-----------------------------------------
+                                    376 ;	 function TIM3_Config
+                                    377 ;	-----------------------------------------
+      000138                        378 _TIM3_Config:
+                                    379 ;	./src/main.c: 193: TIM3_TimeBaseInit(TIM3_PRESCALER_16,60000-1);
+      000138 4B 5F            [ 1]  380 	push	#0x5f
+      00013A 4B EA            [ 1]  381 	push	#0xea
+      00013C 4B 04            [ 1]  382 	push	#0x04
+      00013E CDr00r00         [ 4]  383 	call	_TIM3_TimeBaseInit
+      000141 5B 03            [ 2]  384 	addw	sp, #3
+                                    385 ;	./src/main.c: 195: TIM3_ICInit( TIM3_CHANNEL_1, TIM3_ICPOLARITY_FALLING, TIM3_ICSELECTION_DIRECTTI,
+      000143 4B 00            [ 1]  386 	push	#0x00
+      000145 4B 00            [ 1]  387 	push	#0x00
+      000147 4B 01            [ 1]  388 	push	#0x01
+      000149 4B 44            [ 1]  389 	push	#0x44
+      00014B 4B 00            [ 1]  390 	push	#0x00
+      00014D CDr00r00         [ 4]  391 	call	_TIM3_ICInit
+      000150 5B 05            [ 2]  392 	addw	sp, #5
+                                    393 ;	./src/main.c: 198: TIM3_ClearFlag(TIM3_FLAG_CC1);
+      000152 4B 02            [ 1]  394 	push	#0x02
+      000154 4B 00            [ 1]  395 	push	#0x00
+      000156 CDr00r00         [ 4]  396 	call	_TIM3_ClearFlag
+      000159 85               [ 2]  397 	popw	x
+                                    398 ;	./src/main.c: 199: TIM3_ITConfig(TIM3_IT_UPDATE,ENABLE);
+      00015A 4B 01            [ 1]  399 	push	#0x01
+      00015C 4B 01            [ 1]  400 	push	#0x01
+      00015E CDr00r00         [ 4]  401 	call	_TIM3_ITConfig
+      000161 85               [ 2]  402 	popw	x
+                                    403 ;	./src/main.c: 200: TIM3_ITConfig(TIM3_IT_CC1,ENABLE);
+      000162 4B 01            [ 1]  404 	push	#0x01
+      000164 4B 02            [ 1]  405 	push	#0x02
+      000166 CDr00r00         [ 4]  406 	call	_TIM3_ITConfig
+      000169 85               [ 2]  407 	popw	x
+                                    408 ;	./src/main.c: 201: TIM3_Cmd(ENABLE);
+      00016A 4B 01            [ 1]  409 	push	#0x01
+      00016C CDr00r00         [ 4]  410 	call	_TIM3_Cmd
+      00016F 84               [ 1]  411 	pop	a
+                                    412 ;	./src/main.c: 202: }
+      000170 81               [ 4]  413 	ret
+                                    414 ;	./src/main.c: 205: void TIM4_Config(void)
+                                    415 ;	-----------------------------------------
+                                    416 ;	 function TIM4_Config
+                                    417 ;	-----------------------------------------
+      000171                        418 _TIM4_Config:
+                                    419 ;	./src/main.c: 207: TIM4_TimeBaseInit(TIM4_PRESCALER_128,250-1);  //2ms中断一次
+      000171 4B F9            [ 1]  420 	push	#0xf9
+      000173 4B 07            [ 1]  421 	push	#0x07
+      000175 CDr00r00         [ 4]  422 	call	_TIM4_TimeBaseInit
+      000178 85               [ 2]  423 	popw	x
+                                    424 ;	./src/main.c: 208: TIM4_ClearFlag(TIM4_FLAG_UPDATE);
+      000179 4B 01            [ 1]  425 	push	#0x01
+      00017B CDr00r00         [ 4]  426 	call	_TIM4_ClearFlag
+      00017E 84               [ 1]  427 	pop	a
+                                    428 ;	./src/main.c: 209: TIM4_ITConfig(TIM4_IT_UPDATE,ENABLE);
+      00017F 4B 01            [ 1]  429 	push	#0x01
+      000181 4B 01            [ 1]  430 	push	#0x01
+      000183 CDr00r00         [ 4]  431 	call	_TIM4_ITConfig
+      000186 85               [ 2]  432 	popw	x
+                                    433 ;	./src/main.c: 210: TIM4_Cmd(ENABLE);
+      000187 4B 01            [ 1]  434 	push	#0x01
+      000189 CDr00r00         [ 4]  435 	call	_TIM4_Cmd
+      00018C 84               [ 1]  436 	pop	a
+                                    437 ;	./src/main.c: 211: }
+      00018D 81               [ 4]  438 	ret
+                                    439 ;	./src/main.c: 213: void IWDG_Config(void)
+                                    440 ;	-----------------------------------------
+                                    441 ;	 function IWDG_Config
+                                    442 ;	-----------------------------------------
+      00018E                        443 _IWDG_Config:
+                                    444 ;	./src/main.c: 215: IWDG_Enable();
+      00018E CDr00r00         [ 4]  445 	call	_IWDG_Enable
+                                    446 ;	./src/main.c: 216: IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);
+      000191 4B 55            [ 1]  447 	push	#0x55
+      000193 CDr00r00         [ 4]  448 	call	_IWDG_WriteAccessCmd
+      000196 84               [ 1]  449 	pop	a
+                                    450 ;	./src/main.c: 217: IWDG_SetPrescaler(IWDG_Prescaler_128);
+      000197 4B 05            [ 1]  451 	push	#0x05
+      000199 CDr00r00         [ 4]  452 	call	_IWDG_SetPrescaler
+      00019C 84               [ 1]  453 	pop	a
+                                    454 ;	./src/main.c: 220: IWDG_SetReload(255);
+      00019D 4B FF            [ 1]  455 	push	#0xff
+      00019F CDr00r00         [ 4]  456 	call	_IWDG_SetReload
+      0001A2 84               [ 1]  457 	pop	a
+                                    458 ;	./src/main.c: 221: IWDG_ReloadCounter();
+                                    459 ;	./src/main.c: 222: }
+      0001A3 CCr00r00         [ 2]  460 	jp	_IWDG_ReloadCounter
+                                    461 ;	./src/main.c: 229: PUTCHAR_PROTOTYPE
+                                    462 ;	-----------------------------------------
+                                    463 ;	 function putchar
+                                    464 ;	-----------------------------------------
+      0001A6                        465 _putchar:
+                                    466 ;	./src/main.c: 232: UART2_SendData8(c);
+      0001A6 7B 04            [ 1]  467 	ld	a, (0x04, sp)
+      0001A8 88               [ 1]  468 	push	a
+      0001A9 CDr00r00         [ 4]  469 	call	_UART2_SendData8
+      0001AC 84               [ 1]  470 	pop	a
+                                    471 ;	./src/main.c: 234: while (UART2_GetFlagStatus(UART2_FLAG_TXE) == RESET);
+      0001AD                        472 00101$:
+      0001AD 4B 80            [ 1]  473 	push	#0x80
+      0001AF 4B 00            [ 1]  474 	push	#0x00
+      0001B1 CDr00r00         [ 4]  475 	call	_UART2_GetFlagStatus
+      0001B4 85               [ 2]  476 	popw	x
+      0001B5 4D               [ 1]  477 	tnz	a
+      0001B6 27 F5            [ 1]  478 	jreq	00101$
+                                    479 ;	./src/main.c: 236: return (c);
+      0001B8 1E 03            [ 2]  480 	ldw	x, (0x03, sp)
+                                    481 ;	./src/main.c: 238: }
+      0001BA 81               [ 4]  482 	ret
+                                    483 ;	./src/main.c: 245: GETCHAR_PROTOTYPE
+                                    484 ;	-----------------------------------------
+                                    485 ;	 function getchar
+                                    486 ;	-----------------------------------------
+      0001BB                        487 _getchar:
+                                    488 ;	./src/main.c: 253: while (UART2_GetFlagStatus(UART2_FLAG_RXNE) == RESET);
+      0001BB                        489 00101$:
+      0001BB 4B 20            [ 1]  490 	push	#0x20
+      0001BD 4B 00            [ 1]  491 	push	#0x00
+      0001BF CDr00r00         [ 4]  492 	call	_UART2_GetFlagStatus
+      0001C2 85               [ 2]  493 	popw	x
+      0001C3 4D               [ 1]  494 	tnz	a
+      0001C4 27 F5            [ 1]  495 	jreq	00101$
+                                    496 ;	./src/main.c: 254: c = UART2_ReceiveData8();
+      0001C6 CDr00r00         [ 4]  497 	call	_UART2_ReceiveData8
+      0001C9 5F               [ 1]  498 	clrw	x
+      0001CA 97               [ 1]  499 	ld	xl, a
+                                    500 ;	./src/main.c: 255: return (c);
+                                    501 ;	./src/main.c: 256: }
+      0001CB 81               [ 4]  502 	ret
+                                    503 	.area CODE
+                                    504 	.area CONST
+                                    505 	.area CONST
+      000000                        506 ___str_0:
+      000000 0A                     507 	.db 0x0a
+      000001 0D                     508 	.db 0x0d
+      000002 66 61 6E 20 73 74 61   509 	.ascii "fan start"
+             72 74
+      00000B 0A                     510 	.db 0x0a
+      00000C 0D                     511 	.db 0x0d
+      00000D 00                     512 	.db 0x00
+                                    513 	.area CODE
+                                    514 	.area INITIALIZER
+                                    515 	.area CABS (ABS)

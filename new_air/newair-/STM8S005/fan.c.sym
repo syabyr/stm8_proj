@@ -1,0 +1,58 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000001 L
+    _FLASH_ProgramByte                                             ****** GX
+    _FLASH_ReadByte                                                ****** GX
+    _GPIO_ReadInputData                                            ****** GX
+    _GPIO_WriteHigh                                                ****** GX
+    _GPIO_WriteLow                                                 ****** GX
+    _GPIO_WriteReverse                                             ****** GX
+    _TIM1_SetCompare1                                              ****** GX
+    _TIM2_GetCapture1                                              ****** GX
+  7 ___str_1                                                       000000 R
+  7 ___str_3                                                       000005 R
+    __mulint                                                       ****** GX
+  8 __xinit__nCounter                                              000004 R
+  8 __xinit__onoff_state                                           000000 R
+  8 __xinit__speed                                                 000001 R
+  8 __xinit__speed_counter                                         000002 R
+  9 _fan_down                                                      00010C GR
+  9 _fan_init                                                      000025 GR
+  9 _fan_off                                                       00008A GR
+  9 _fan_on                                                        00006F GR
+  9 _fan_sw                                                        0000A5 GR
+  9 _fan_up                                                        0000D1 GR
+  9 _ms2_update                                                    000166 GR
+  2 _nCounter                                                      000004 GR
+  2 _onoff_state                                                   000000 GR
+    _puts                                                          ****** GX
+  9 _sd_on_cap                                                     000147 GR
+  9 _sd_on_ovf                                                     000156 GR
+  2 _speed                                                         000001 GR
+  2 _speed_counter                                                 000002 GR
+  9 _write_fan_speed                                               000000 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 DATA                                       size      0   flags    0
+   2 INITIALIZED                                size      6   flags    0
+   3 DABS                                       size      0   flags    8
+   4 HOME                                       size      0   flags    0
+   5 GSINIT                                     size      0   flags    0
+   6 GSFINAL                                    size      0   flags    0
+   7 CONST                                      size     10   flags    0
+   8 INITIALIZER                                size      6   flags    0
+   9 CODE                                       size    16E   flags    0
+   A CABS                                       size      0   flags    8
+

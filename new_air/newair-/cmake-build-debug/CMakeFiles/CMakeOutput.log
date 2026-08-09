@@ -1,0 +1,43 @@
+The target system is: Generic -  - 
+The host system is: Darwin - 21.1.0 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/local/bin/sdcc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.asm"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.ihx"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.lk"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.lst"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.map"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.mem"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.rel"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.rst"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.sym"
+
+The C compiler identification is SDCC, found in "/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/cmake-build-debug/CMakeFiles/3.19.2/CompilerIdC/CMakeCCompilerId.asm"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_9f611/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_9f611.dir/build.make CMakeFiles/cmTC_9f611.dir/build
+Building C object CMakeFiles/cmTC_9f611.dir/CMakeCCompilerABI.c.rel
+/usr/local/bin/sdcc    -o CMakeFiles/cmTC_9f611.dir/CMakeCCompilerABI.c.rel -c /Users/mybays/Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.19/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_9f611.ihx
+/Users/mybays/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9f611.dir/link.txt --verbose=1
+/usr/local/bin/sdcc CMakeFiles/cmTC_9f611.dir/CMakeCCompilerABI.c.rel -o cmTC_9f611.ihx 
+
+
+

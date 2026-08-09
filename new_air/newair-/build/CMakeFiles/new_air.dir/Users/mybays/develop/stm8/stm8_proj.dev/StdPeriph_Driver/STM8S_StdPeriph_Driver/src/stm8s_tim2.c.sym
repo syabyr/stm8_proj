@@ -1,0 +1,76 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000001 L
+  9 _TI1_Config                                                    000A9C R
+  9 _TI2_Config                                                    000ACD R
+  9 _TI3_Config                                                    000AFE R
+  9 _TIM2_ARRPreloadConfig                                         00061A GR
+  9 _TIM2_CCxCmd                                                   000764 GR
+  9 _TIM2_ClearFlag                                                000A0A GR
+  9 _TIM2_ClearITPendingBit                                        000A7C GR
+  9 _TIM2_Cmd                                                      00041D GR
+  9 _TIM2_DeInit                                                   000000 GR
+  9 _TIM2_ForcedOC1Config                                          0005A8 GR
+  9 _TIM2_ForcedOC2Config                                          0005CE GR
+  9 _TIM2_ForcedOC3Config                                          0005F4 GR
+  9 _TIM2_GenerateEvent                                            0006C6 GR
+  9 _TIM2_GetCapture1                                              000953 GR
+  9 _TIM2_GetCapture2                                              00096A GR
+  9 _TIM2_GetCapture3                                              000981 GR
+  9 _TIM2_GetCounter                                               000998 GR
+  9 _TIM2_GetFlagStatus                                            0009B4 GR
+  9 _TIM2_GetITStatus                                              000A3B GR
+  9 _TIM2_GetPrescaler                                             0009B0 GR
+  9 _TIM2_ICInit                                                   000232 GR
+  9 _TIM2_ITConfig                                                 000448 GR
+  9 _TIM2_OC1Init                                                  00006A GR
+  9 _TIM2_OC1PolarityConfig                                        0006E0 GR
+  9 _TIM2_OC1PreloadConfig                                         000645 GR
+  9 _TIM2_OC2Init                                                  000102 GR
+  9 _TIM2_OC2PolarityConfig                                        00070C GR
+  9 _TIM2_OC2PreloadConfig                                         000670 GR
+  9 _TIM2_OC3Init                                                  00019A GR
+  9 _TIM2_OC3PolarityConfig                                        000738 GR
+  9 _TIM2_OC3PreloadConfig                                         00069B GR
+  9 _TIM2_PWMIConfig                                               00031C GR
+  9 _TIM2_PrescalerConfig                                          000517 GR
+  9 _TIM2_SelectOCxM                                               0007ED GR
+  9 _TIM2_SelectOnePulseMode                                       0004EC GR
+  9 _TIM2_SetAutoreload                                            000897 GR
+  9 _TIM2_SetCompare1                                              0008A2 GR
+  9 _TIM2_SetCompare2                                              0008AD GR
+  9 _TIM2_SetCompare3                                              0008B8 GR
+  9 _TIM2_SetCounter                                               00088C GR
+  9 _TIM2_SetIC1Prescaler                                          0008C3 GR
+  9 _TIM2_SetIC2Prescaler                                          0008F3 GR
+  9 _TIM2_SetIC3Prescaler                                          000923 GR
+  9 _TIM2_TimeBaseInit                                             000059 GR
+  9 _TIM2_UpdateDisableConfig                                      000496 GR
+  9 _TIM2_UpdateRequestConfig                                      0004C1 GR
+  7 ___str_0                                                       000000 R
+    _assert_failed                                                 ****** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 DATA                                       size      0   flags    0
+   2 INITIALIZED                                size      0   flags    0
+   3 DABS                                       size      0   flags    8
+   4 HOME                                       size      0   flags    0
+   5 GSINIT                                     size      0   flags    0
+   6 GSFINAL                                    size      0   flags    0
+   7 CONST                                      size     62   flags    0
+   8 INITIALIZER                                size      0   flags    0
+   9 CODE                                       size    B2F   flags    0
+   A CABS                                       size      0   flags    8
+

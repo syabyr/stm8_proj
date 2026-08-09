@@ -1,0 +1,68 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000001 L
+  9 _TI1_Config                                                    0008B0 R
+  9 _TI2_Config                                                    0008E1 R
+  9 _TIM3_ARRPreloadConfig                                         000534 GR
+  9 _TIM3_CCxCmd                                                   000627 GR
+  9 _TIM3_ClearFlag                                                00081C GR
+  9 _TIM3_ClearITPendingBit                                        000890 GR
+  9 _TIM3_Cmd                                                      00035D GR
+  9 _TIM3_DeInit                                                   000000 GR
+  9 _TIM3_ForcedOC1Config                                          0004E8 GR
+  9 _TIM3_ForcedOC2Config                                          00050E GR
+  9 _TIM3_GenerateEvent                                            0005B5 GR
+  9 _TIM3_GetCapture1                                              000786 GR
+  9 _TIM3_GetCapture2                                              00079D GR
+  9 _TIM3_GetCounter                                               0007B4 GR
+  9 _TIM3_GetFlagStatus                                            0007D0 GR
+  9 _TIM3_GetITStatus                                              000855 GR
+  9 _TIM3_GetPrescaler                                             0007CC GR
+  9 _TIM3_ICInit                                                   000186 GR
+  9 _TIM3_ITConfig                                                 000388 GR
+  9 _TIM3_OC1Init                                                  000056 GR
+  9 _TIM3_OC1PolarityConfig                                        0005CF GR
+  9 _TIM3_OC1PreloadConfig                                         00055F GR
+  9 _TIM3_OC2Init                                                  0000EE GR
+  9 _TIM3_OC2PolarityConfig                                        0005FB GR
+  9 _TIM3_OC2PreloadConfig                                         00058A GR
+  9 _TIM3_PWMIConfig                                               00024F GR
+  9 _TIM3_PrescalerConfig                                          000457 GR
+  9 _TIM3_SelectOCxM                                               00067E GR
+  9 _TIM3_SelectOnePulseMode                                       00042C GR
+  9 _TIM3_SetAutoreload                                            000705 GR
+  9 _TIM3_SetCompare1                                              000710 GR
+  9 _TIM3_SetCompare2                                              00071B GR
+  9 _TIM3_SetCounter                                               0006FA GR
+  9 _TIM3_SetIC1Prescaler                                          000726 GR
+  9 _TIM3_SetIC2Prescaler                                          000756 GR
+  9 _TIM3_TimeBaseInit                                             000045 GR
+  9 _TIM3_UpdateDisableConfig                                      0003D6 GR
+  9 _TIM3_UpdateRequestConfig                                      000401 GR
+  7 ___str_0                                                       000000 R
+    _assert_failed                                                 ****** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 DATA                                       size      0   flags    0
+   2 INITIALIZED                                size      0   flags    0
+   3 DABS                                       size      0   flags    8
+   4 HOME                                       size      0   flags    0
+   5 GSINIT                                     size      0   flags    0
+   6 GSFINAL                                    size      0   flags    0
+   7 CONST                                      size     62   flags    0
+   8 INITIALIZER                                size      0   flags    0
+   9 CODE                                       size    912   flags    0
+   A CABS                                       size      0   flags    8
+

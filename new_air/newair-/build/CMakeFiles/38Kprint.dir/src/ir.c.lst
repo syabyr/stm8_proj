@@ -1,0 +1,296 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.0 #12072 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module ir
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _puts
+                                     12 	.globl _printf
+                                     13 	.globl _TIM3_GetCapture1
+                                     14 	.globl _TIM3_ICInit
+                                     15 	.globl _cmd
+                                     16 	.globl _addr
+                                     17 	.globl _shift
+                                     18 	.globl _status
+                                     19 	.globl _ov_handler
+                                     20 	.globl _cap_handler
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area DATA
+      000000                         25 _status::
+      000000                         26 	.ds 1
+      000001                         27 _shift::
+      000001                         28 	.ds 2
+      000003                         29 _addr::
+      000003                         30 	.ds 2
+      000005                         31 _cmd::
+      000005                         32 	.ds 2
+                                     33 ;--------------------------------------------------------
+                                     34 ; ram data
+                                     35 ;--------------------------------------------------------
+                                     36 	.area INITIALIZED
+                                     37 ;--------------------------------------------------------
+                                     38 ; absolute external ram data
+                                     39 ;--------------------------------------------------------
+                                     40 	.area DABS (ABS)
+                                     41 
+                                     42 ; default segment ordering for linker
+                                     43 	.area HOME
+                                     44 	.area GSINIT
+                                     45 	.area GSFINAL
+                                     46 	.area CONST
+                                     47 	.area INITIALIZER
+                                     48 	.area CODE
+                                     49 
+                                     50 ;--------------------------------------------------------
+                                     51 ; global & static initialisations
+                                     52 ;--------------------------------------------------------
+                                     53 	.area HOME
+                                     54 	.area GSINIT
+                                     55 	.area GSFINAL
+                                     56 	.area GSINIT
+                                     57 ;--------------------------------------------------------
+                                     58 ; Home
+                                     59 ;--------------------------------------------------------
+                                     60 	.area HOME
+                                     61 	.area HOME
+                                     62 ;--------------------------------------------------------
+                                     63 ; code
+                                     64 ;--------------------------------------------------------
+                                     65 	.area CODE
+                                     66 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 13: void ov_handler()
+                                     67 ;	-----------------------------------------
+                                     68 ;	 function ov_handler
+                                     69 ;	-----------------------------------------
+      000000                         70 _ov_handler:
+                                     71 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 16: if(0 != status)
+      000000 72 5Du00u00      [ 1]   72 	tnz	_status+0
+      000004 26 01            [ 1]   73 	jrne	00118$
+      000006 81               [ 4]   74 	ret
+      000007                         75 00118$:
+                                     76 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 18: status = 0;
+      000007 72 5Fu00u00      [ 1]   77 	clr	_status+0
+                                     78 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 19: if((cmd > 0)||(addr > 0))
+      00000B CEu00u05         [ 2]   79 	ldw	x, _cmd+0
+      00000E 26 05            [ 1]   80 	jrne	00101$
+      000010 CEu00u03         [ 2]   81 	ldw	x, _addr+0
+      000013 27 11            [ 1]   82 	jreq	00102$
+      000015                         83 00101$:
+                                     84 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 21: printf("addr:0x%02x,cmd:0x%02x\r\n",addr,cmd);
+      000015 CEu00u05         [ 2]   85 	ldw	x, _cmd+0
+      000018 89               [ 2]   86 	pushw	x
+      000019 CEu00u03         [ 2]   87 	ldw	x, _addr+0
+      00001C 89               [ 2]   88 	pushw	x
+      00001D 4Br00            [ 1]   89 	push	#<(___str_0+0)
+      00001F 4Bs00            [ 1]   90 	push	#((___str_0+0) >> 8)
+      000021 CDr00r00         [ 4]   91 	call	_printf
+      000024 5B 06            [ 2]   92 	addw	sp, #6
+      000026                         93 00102$:
+                                     94 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 23: printf("-ovf-\r\n");
+      000026 4Br19            [ 1]   95 	push	#<(___str_2+0)
+      000028 4Bs00            [ 1]   96 	push	#((___str_2+0) >> 8)
+      00002A CDr00r00         [ 4]   97 	call	_puts
+      00002D 85               [ 2]   98 	popw	x
+                                     99 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 25: }
+      00002E 81               [ 4]  100 	ret
+                                    101 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 27: void cap_handler()
+                                    102 ;	-----------------------------------------
+                                    103 ;	 function cap_handler
+                                    104 ;	-----------------------------------------
+      00002F                        105 _cap_handler:
+      00002F 52 03            [ 2]  106 	sub	sp, #3
+                                    107 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 29: if(0 == status)
+      000031 72 5Du00u00      [ 1]  108 	tnz	_status+0
+      000035 26 2A            [ 1]  109 	jrne	00126$
+                                    110 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 33: status = 1;
+      000037 35 01u00u00      [ 1]  111 	mov	_status+0, #0x01
+                                    112 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 34: addr = 0;
+      00003B 5F               [ 1]  113 	clrw	x
+      00003C CFu00u03         [ 2]  114 	ldw	_addr+0, x
+                                    115 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 35: cmd = 0;
+      00003F 5F               [ 1]  116 	clrw	x
+      000040 CFu00u05         [ 2]  117 	ldw	_cmd+0, x
+                                    118 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 36: shift = 0;
+      000043 5F               [ 1]  119 	clrw	x
+      000044 CFu00u01         [ 2]  120 	ldw	_shift+0, x
+                                    121 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 37: printf("-cap-\r\n");
+      000047 4Br20            [ 1]  122 	push	#<(___str_4+0)
+      000049 4Bs00            [ 1]  123 	push	#((___str_4+0) >> 8)
+      00004B CDr00r00         [ 4]  124 	call	_puts
+      00004E 85               [ 2]  125 	popw	x
+                                    126 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 38: TIM3_ICInit( TIM3_CHANNEL_1, TIM3_ICPOLARITY_RISING, TIM3_ICSELECTION_DIRECTTI,
+      00004F 4B 00            [ 1]  127 	push	#0x00
+      000051 4B 00            [ 1]  128 	push	#0x00
+      000053 4B 01            [ 1]  129 	push	#0x01
+      000055 4B 00            [ 1]  130 	push	#0x00
+      000057 4B 00            [ 1]  131 	push	#0x00
+      000059 CDr00r00         [ 4]  132 	call	_TIM3_ICInit
+      00005C 5B 05            [ 2]  133 	addw	sp, #5
+      00005E CCr01r16         [ 2]  134 	jp	00128$
+      000061                        135 00126$:
+                                    136 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 43: uint16_t capValue=TIM3_GetCapture1();
+      000061 CDr00r00         [ 4]  137 	call	_TIM3_GetCapture1
+                                    138 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 45: if(capValue > 2500)
+      000064 1F 01            [ 2]  139 	ldw	(0x01, sp), x
+      000066 A3 09 C4         [ 2]  140 	cpw	x, #0x09c4
+      000069 23 10            [ 2]  141 	jrule	00104$
+                                    142 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 47: if(status == 1)
+      00006B C6u00u00         [ 1]  143 	ld	a, _status+0
+      00006E 4A               [ 1]  144 	dec	a
+      00006F 27 03            [ 1]  145 	jreq	00194$
+      000071 CCr01r16         [ 2]  146 	jp	00128$
+      000074                        147 00194$:
+                                    148 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 49: status = 2;
+      000074 35 02u00u00      [ 1]  149 	mov	_status+0, #0x02
+                                    150 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 51: return;
+      000078 CCr01r16         [ 2]  151 	jp	00128$
+      00007B                        152 00104$:
+                                    153 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 55: if(((capValue < IR_ONE_MAX) && (capValue > IR_ONE_MIN))
+      00007B A3 09 C4         [ 2]  154 	cpw	x, #0x09c4
+      00007E 4F               [ 1]  155 	clr	a
+      00007F 49               [ 1]  156 	rlc	a
+      000080 6B 03            [ 1]  157 	ld	(0x03, sp), a
+      000082 A3 07 D0         [ 2]  158 	cpw	x, #0x07d0
+      000085 23 03            [ 2]  159 	jrule	00195$
+      000087 A6 01            [ 1]  160 	ld	a, #0x01
+      000089 21                     161 	.byte 0x21
+      00008A                        162 00195$:
+      00008A 4F               [ 1]  163 	clr	a
+      00008B                        164 00196$:
+      00008B 0D 03            [ 1]  165 	tnz	(0x03, sp)
+      00008D 27 03            [ 1]  166 	jreq	00116$
+      00008F 4D               [ 1]  167 	tnz	a
+      000090 26 0A            [ 1]  168 	jrne	00111$
+      000092                        169 00116$:
+                                    170 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 56: ||((capValue < IR_ZERO_MAX) && (capValue > IR_ZERO_MIN)))
+      000092 A3 04 E2         [ 2]  171 	cpw	x, #0x04e2
+      000095 24 2E            [ 1]  172 	jrnc	00112$
+      000097 A3 03 E8         [ 2]  173 	cpw	x, #0x03e8
+      00009A 23 29            [ 2]  174 	jrule	00112$
+      00009C                        175 00111$:
+                                    176 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 59: if(status != 3)
+      00009C 88               [ 1]  177 	push	a
+      00009D C6u00u00         [ 1]  178 	ld	a, _status+0
+      0000A0 A1 03            [ 1]  179 	cp	a, #0x03
+      0000A2 84               [ 1]  180 	pop	a
+      0000A3 27 06            [ 1]  181 	jreq	00106$
+                                    182 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 61: status =3;
+      0000A5 35 03u00u00      [ 1]  183 	mov	_status+0, #0x03
+      0000A9 20 08            [ 2]  184 	jra	00107$
+      0000AB                        185 00106$:
+                                    186 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 65: shift = shift<<1;
+      0000AB 72 58u00u02      [ 1]  187 	sll	_shift+1
+      0000AF 72 59u00u01      [ 1]  188 	rlc	_shift+0
+      0000B3                        189 00107$:
+                                    190 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 67: if((capValue < IR_ONE_MAX) && (capValue > IR_ONE_MIN))
+      0000B3 0D 03            [ 1]  191 	tnz	(0x03, sp)
+      0000B5 27 1C            [ 1]  192 	jreq	00113$
+      0000B7 4D               [ 1]  193 	tnz	a
+      0000B8 27 19            [ 1]  194 	jreq	00113$
+                                    195 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 69: shift|=1;
+      0000BA CEu00u01         [ 2]  196 	ldw	x, _shift+0
+      0000BD 54               [ 2]  197 	srlw	x
+      0000BE 99               [ 1]  198 	scf
+      0000BF 59               [ 2]  199 	rlcw	x
+      0000C0 CFu00u01         [ 2]  200 	ldw	_shift+0, x
+      0000C3 20 0E            [ 2]  201 	jra	00113$
+      0000C5                        202 00112$:
+                                    203 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 75: printf("erlen:%d\r\n",capValue);
+      0000C5 1E 01            [ 2]  204 	ldw	x, (0x01, sp)
+      0000C7 89               [ 2]  205 	pushw	x
+      0000C8 4Br27            [ 1]  206 	push	#<(___str_5+0)
+      0000CA 4Bs00            [ 1]  207 	push	#((___str_5+0) >> 8)
+      0000CC CDr00r00         [ 4]  208 	call	_printf
+      0000CF 5B 04            [ 2]  209 	addw	sp, #4
+                                    210 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 76: return;
+      0000D1 20 43            [ 2]  211 	jra	00128$
+      0000D3                        212 00113$:
+                                    213 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 79: uint8_t high=(shift&0xff00)>>8;
+      0000D3 CEu00u01         [ 2]  214 	ldw	x, _shift+0
+      0000D6 9E               [ 1]  215 	ld	a, xh
+      0000D7 5F               [ 1]  216 	clrw	x
+      0000D8 97               [ 1]  217 	ld	xl, a
+                                    218 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 80: uint8_t low=(int8_t)(shift&0x00ff);
+      0000D9 C6u00u02         [ 1]  219 	ld	a, _shift+1
+                                    220 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 84: if(0xff==(low^high))
+      0000DC 89               [ 2]  221 	pushw	x
+      0000DD 18 02            [ 1]  222 	xor	a, (2, sp)
+      0000DF 85               [ 2]  223 	popw	x
+      0000E0 4C               [ 1]  224 	inc	a
+      0000E1 26 18            [ 1]  225 	jrne	00121$
+                                    226 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 89: addr = high;
+      0000E3 4F               [ 1]  227 	clr	a
+      0000E4 95               [ 1]  228 	ld	xh, a
+                                    229 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 86: if(addr == 0)
+      0000E5 90 CEu00u03      [ 2]  230 	ldw	y, _addr+0
+      0000E9 26 0D            [ 1]  231 	jrne	00118$
+                                    232 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 89: addr = high;
+      0000EB CFu00u03         [ 2]  233 	ldw	_addr+0, x
+                                    234 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 90: shift = 0;
+      0000EE 5F               [ 1]  235 	clrw	x
+      0000EF CFu00u01         [ 2]  236 	ldw	_shift+0, x
+                                    237 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 93: status = 2;
+      0000F2 35 02u00u00      [ 1]  238 	mov	_status+0, #0x02
+      0000F6 20 03            [ 2]  239 	jra	00121$
+      0000F8                        240 00118$:
+                                    241 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 99: cmd = high;
+      0000F8 CFu00u05         [ 2]  242 	ldw	_cmd+0, x
+                                    243 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 100: capValue = 0;
+      0000FB                        244 00121$:
+                                    245 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 104: if((cmd > 0)&&(addr > 0))
+      0000FB CEu00u05         [ 2]  246 	ldw	x, _cmd+0
+      0000FE 27 16            [ 1]  247 	jreq	00128$
+      000100 CEu00u03         [ 2]  248 	ldw	x, _addr+0
+      000103 27 11            [ 1]  249 	jreq	00128$
+                                    250 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 106: printf("addr:0x%02x,cmd:0x%02x\r\n",addr,cmd);
+      000105 CEu00u05         [ 2]  251 	ldw	x, _cmd+0
+      000108 89               [ 2]  252 	pushw	x
+      000109 CEu00u03         [ 2]  253 	ldw	x, _addr+0
+      00010C 89               [ 2]  254 	pushw	x
+      00010D 4Br00            [ 1]  255 	push	#<(___str_0+0)
+      00010F 4Bs00            [ 1]  256 	push	#((___str_0+0) >> 8)
+      000111 CDr00r00         [ 4]  257 	call	_printf
+      000114 5B 06            [ 2]  258 	addw	sp, #6
+      000116                        259 00128$:
+                                    260 ;	/Users/mybays/develop/stm8/stm8_proj.dev/new_air/newair/src/ir.c: 109: }
+      000116 5B 03            [ 2]  261 	addw	sp, #3
+      000118 81               [ 4]  262 	ret
+                                    263 	.area CODE
+                                    264 	.area CONST
+                                    265 	.area CONST
+      000000                        266 ___str_0:
+      000000 61 64 64 72 3A 30 78   267 	.ascii "addr:0x%02x,cmd:0x%02x"
+             25 30 32 78 2C 63 6D
+             64 3A 30 78 25 30 32
+             78
+      000016 0D                     268 	.db 0x0d
+      000017 0A                     269 	.db 0x0a
+      000018 00                     270 	.db 0x00
+                                    271 	.area CODE
+                                    272 	.area CONST
+      000019                        273 ___str_2:
+      000019 2D 6F 76 66 2D         274 	.ascii "-ovf-"
+      00001E 0D                     275 	.db 0x0d
+      00001F 00                     276 	.db 0x00
+                                    277 	.area CODE
+                                    278 	.area CONST
+      000020                        279 ___str_4:
+      000020 2D 63 61 70 2D         280 	.ascii "-cap-"
+      000025 0D                     281 	.db 0x0d
+      000026 00                     282 	.db 0x00
+                                    283 	.area CODE
+                                    284 	.area CONST
+      000027                        285 ___str_5:
+      000027 65 72 6C 65 6E 3A 25   286 	.ascii "erlen:%d"
+             64
+      00002F 0D                     287 	.db 0x0d
+      000030 0A                     288 	.db 0x0a
+      000031 00                     289 	.db 0x00
+                                    290 	.area CODE
+                                    291 	.area INITIALIZER
+                                    292 	.area CABS (ABS)
